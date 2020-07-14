@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MMFI_Data2\MMFI_Data.csproj" />
+    <ProjectReference Include="..\MMFI_IServices\MMFI_IServices.csproj" />
+  </ItemGroup>
+
+</Project>
