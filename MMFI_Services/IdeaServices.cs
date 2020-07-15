@@ -26,7 +26,7 @@ namespace MMFI_Services
         public List<Recipe> FindRecipes(List<Ingridient> ingridients, int time)
         {
 
-           List<Recipe> recipes = _recipeDb.Recipes.Where(r => r.RecipeTime <= time &&  isViable(ingridients,r.Ingridients)).ToList();
+           List<Recipe> recipes = _recipeDb.Recipes.Where(r => r.RecipeTime <= time &&  IsViable(ingridients,r.Ingridients)).ToList();
 
             return recipes;
         }
@@ -36,12 +36,12 @@ namespace MMFI_Services
             throw new NotImplementedException();
         }
 
-        public Ingridient SearchIngridient(string n)
+        public List<Ingridient> SearchIngridient(string n)
         {
-           Ingridient ingridient = 
-                _ingridientsDb.Ingridients.FirstOrDefault(i => i.IngridientName.Contains(n));
+           List<Ingridient> ingridients = 
+                _ingridientsDb.Ingridients.Where(i => i.IngridientName.Contains(n)).ToList();
             
-           return ingridient;
+           return ingridients;
         }
 
         public Ingridient SearchIngridient(int id)
@@ -53,7 +53,7 @@ namespace MMFI_Services
         }
 
 
-        private bool isViable(List<Ingridient> ingridients, List<Ingridient> recipeIngridients)
+        private bool IsViable(List<Ingridient> ingridients, List<Ingridient> recipeIngridients)
         {
             // If there is more ingridients in recipe than one has the recipe is unavailable
             if (recipeIngridients.Count() > ingridients.Count())

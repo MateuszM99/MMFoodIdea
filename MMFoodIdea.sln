@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMFoodIdea", "MMFoodIdea\MMFoodIdea.csproj", "{0E4DB9D4-FFBC-4893-9A21-042BC4F4895F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMFoodIdea", "MMFoodIdea\MMFoodIdea.csproj", "{0E4DB9D4-FFBC-4893-9A21-042BC4F4895F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMFI_Data", "MMFI_Data2\MMFI_Data.csproj", "{16497C9D-8CCC-4EC9-A6A4-4A04877A129F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMFI_Data", "MMFI_Data2\MMFI_Data.csproj", "{16497C9D-8CCC-4EC9-A6A4-4A04877A129F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMFI_Services", "MMFI_Services\MMFI_Services.csproj", "{55B9C8EE-DF8F-4CE6-B2CD-BDDA905F8CEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMFI_Services", "MMFI_Services\MMFI_Services.csproj", "{55B9C8EE-DF8F-4CE6-B2CD-BDDA905F8CEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMFI_IServices", "MMFI_IServices\MMFI_IServices.csproj", "{C29DF25E-F95A-4947-8BC2-73C4049DCF0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMFI_IServices", "MMFI_IServices\MMFI_IServices.csproj", "{C29DF25E-F95A-4947-8BC2-73C4049DCF0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMFI_Entites", "MMFI_Entites\MMFI_Entites.csproj", "{ADF4DF1D-D3B1-4C7E-8DB4-F3FE37E99C1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMFI_Entites", "MMFI_Entites\MMFI_Entites.csproj", "{ADF4DF1D-D3B1-4C7E-8DB4-F3FE37E99C1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

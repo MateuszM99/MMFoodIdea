@@ -10,7 +10,7 @@ namespace MMFI_IServices
 
         List<Ingridient> AddIngridient(List<Ingridient> ingridients);
         List<Ingridient> RemoveIngridient(List<Ingridient> ingridients);
-        Ingridient SearchIngridient(string n);
+        List<Ingridient> SearchIngridient(string n);
         Ingridient SearchIngridient(int id);
         List<Recipe> FindRecipes(List<Ingridient> ingridients, int time);
 
