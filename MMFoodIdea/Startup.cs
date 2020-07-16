@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MMFI_Data.Data;
+using MMFI_IServices;
+using MMFI_Services;
 
 namespace MMFoodIdea
 {
@@ -52,6 +54,8 @@ namespace MMFoodIdea
                     options.ClientId = googleAuthNSection["ClientId"];
                     options.ClientSecret = googleAuthNSection["ClientSecret"];
                 });
+
+            services.AddScoped<ICommentServices, CommentServices>();
 
         }
 

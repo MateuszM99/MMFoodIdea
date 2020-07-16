@@ -1,0 +1,35 @@
+﻿@model MMFI_Entites.ViewModels.CommentVM
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+
+<div class="card">
+    @if (Model.comments != null)
+    {
+        foreach (var comment in Model.comments)
+        {
+        <div class="card-header">
+            Quote
+         </div>
+        <div class="card-body">
+            <blockquote class="blockquote mb-0">
+                <p>@comment.Body</p>
+                <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
+            </blockquote>
+        </div>
+        }
+    }    
+</div>
+
+<form action="LeaveComment" method="post">
+
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1">Example textarea</label>
+        <textarea class="form-control" name="Body" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
