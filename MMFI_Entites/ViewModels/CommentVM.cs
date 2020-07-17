@@ -9,5 +9,7 @@ namespace MMFI_Entites.ViewModels
     public class CommentVM
     {
         public List<Comment> comments;
+
+        public int RecipeID { get; set; }
     }
 }

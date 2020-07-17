@@ -19,9 +19,15 @@ namespace MMFoodIdea.Controllers
             _recipeDb = recipeDb;
             _cServices = cServices;
         }
+
         public IActionResult Index(int? id)
         {
             CommentVM cvm = new CommentVM();
+            
+            if (id == null)
+                return View("Index",cvm);
+
+            
 
             cvm.comments = _cServices.GetAllComments(id);
 
@@ -38,7 +44,7 @@ namespace MMFoodIdea.Controllers
         }
 
        
-
+        [HttpPost]
         public IActionResult LeaveComment(string body)
         {
             Comment comment = new Comment();
