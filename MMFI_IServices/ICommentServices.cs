@@ -3,12 +3,13 @@ using MMFI_Entites.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MMFI_IServices
 {
     public interface ICommentServices
     {
-        bool PostComment(Comment comment);
+        Task PostComment(Comment comment);
 
         List<Comment> GetAllComments(int? id);
 

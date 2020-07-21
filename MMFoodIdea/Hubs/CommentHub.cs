@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using MMFI_Entites.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,9 @@ namespace MMFoodIdea.Hubs
 {
     public class CommentHub : Hub
     {
-        public async Task PostComment(string message)
+        public async Task PostComment(Comment comment)
         {
-            await Clients.All.SendAsync("Recive Comment", message);
+            await Clients.All.SendAsync("reciveComment", comment);
         }
     }
 }

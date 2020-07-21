@@ -16,6 +16,7 @@ using MMFI_Data.Data;
 using MMFI_IServices;
 using MMFI_Services;
 using MMFoodIdea.Hubs;
+using MMFoodIdea.Controllers;
 
 namespace MMFoodIdea
 {
@@ -83,6 +84,8 @@ namespace MMFoodIdea
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            
 
             app.UseEndpoints(endpoints =>
             {

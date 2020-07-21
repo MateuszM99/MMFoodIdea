@@ -13,7 +13,7 @@ namespace MMFI_Entites.Models
         public string Author { get; set; }   
 
         [Column(TypeName = "ntext")]
-        public string Body { get; set; }
+        public string Text { get; set; }
         public DateTime Date { get; set; }
         public  int Likes { get; set; }
 

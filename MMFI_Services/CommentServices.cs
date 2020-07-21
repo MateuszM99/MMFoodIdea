@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MMFI_Services
 {
@@ -25,11 +26,14 @@ namespace MMFI_Services
             return _recipeDb.Comments.Where(c => c.RecipeId == id).ToList();       
         }
 
-        public bool PostComment(Comment comment)
+        public async Task PostComment(Comment comment)
         {
-            _recipeDb.Comments.Add(comment);
+            comment.Date = DateTime.Now;
+            comment.RecipeId = 1;
+          
+            await _recipeDb.Comments.AddAsync(comment);
             
-          return  _recipeDb.SaveChanges() > 0;          
+            await _recipeDb.SaveChangesAsync();          
         }
     }
 }

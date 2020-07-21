@@ -45,19 +45,17 @@ namespace MMFoodIdea.Controllers
 
        
         [HttpPost]
-        public IActionResult LeaveComment(string body)
+        public async Task<IActionResult> LeaveComment(Comment comment)
         {
-            Comment comment = new Comment();
 
-            comment.Body = body;
-            comment.Date = DateTime.Now;
-            comment.RecipeId = 1;
-
-            _cServices.PostComment(comment);
-           
+            if (ModelState.IsValid)
+            {                
+                await _cServices.PostComment(comment);
+                return Ok();
+            }
 
 
-            return RedirectToAction("Index");
+            return View("Error",!ModelState.IsValid);
         }
     }
 }

@@ -1,29 +1,49 @@
-﻿"use strict";
+﻿class Comment {
+    constructor(text, date) {
+        this.text = text;
+        this.date = date;
+    }
+}
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/commentHub").build();
 
-//Disable send button until connection is established
-document.getElementById("submitButton").disabled = true;
+const textInput = document.getElementById('text');
+const commentSection = document.getElementById('commentSec');
+const commentsQueue = [];
 
-connection.on("ReceiveMessage", function (user, message) {
-    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var encodedMsg = user + " says " + msg;
-    var li = document.createElement("li");
-    li.textContent = encodedMsg;
-    document.getElementById("messagesList").appendChild(li);
+document.getElementById('submitButton').addEventListener('click', () => {
+    
 });
 
-connection.start().then(function () {
-    document.getElementById("sendButton").disabled = false;
-}).catch(function (err) {
-    return console.error(err.toString());
-});
+function clearInputField() {
+    commentsQueue.push(textInput.value);
+    textInput.value = "";
+}
 
-document.getElementById("sendButton").addEventListener("click", function (event) {
-    var user = document.getElementById("userInput").value;
-    var message = document.getElementById("messageInput").value;
-    connection.invoke("SendMessage", user, message).catch(function (err) {
-        return console.error(err.toString());
-    });
-    event.preventDefault();
-});
+function sendComment() {
+    let text = commentsQueue.shift() || "";
+    if (text.trim() === "") return;
+
+    let date = new Date();
+    let comment = new Comment(text,date);
+    sendCommentToHub(comment);
+}
+
+function addComment(comment) {
+   
+    let container = document.createElement('div');
+    
+    let text = document.createElement('p');
+    text.innerHTML = comment.text;
+
+    let date = document.createElement('span');
+    var currentdate = new Date();
+    date.innerHTML =
+        (currentdate.getMonth() + 1) + "/"
+        + currentdate.getDate() + "/"
+        + currentdate.getFullYear() + " "
+        + currentdate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+   
+    container.appendChild(text);
+    container.appendChild(date);
+    commentSection.appendChild(container);
+}
