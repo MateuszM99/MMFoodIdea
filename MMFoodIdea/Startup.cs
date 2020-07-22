@@ -38,9 +38,6 @@ namespace MMFoodIdea
             services.AddDbContext<IngridientsDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("IngridientsDbContext")));
-            services.AddDbContext<RecipeDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("RecipeDbContext")));
             
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();

@@ -7,16 +7,17 @@ using MMFI_Data.Data;
 using MMFI_Entites.Models;
 using MMFI_Entites.ViewModels;
 using MMFI_IServices;
+using MMFoodIdea.Data;
 
 namespace MMFoodIdea.Controllers
 {
     public class RecipesController : Controller
     {
-        private readonly RecipeDbContext _recipeDb;
+        private readonly ApplicationDbContext _appDb;
         private readonly ICommentServices _cServices;
-        public RecipesController(RecipeDbContext recipeDb,ICommentServices cServices)
+        public RecipesController(ApplicationDbContext appDb, ICommentServices cServices)
         {
-            _recipeDb = recipeDb;
+            _appDb = appDb;
             _cServices = cServices;
         }
 
@@ -37,8 +38,8 @@ namespace MMFoodIdea.Controllers
         [HttpPost]
         public IActionResult CreateRecipe(Recipe recipe)
         {
-            _recipeDb.Recipes.Add(recipe);
-            _recipeDb.SaveChanges();
+          //  _appDb.Recipes.Add(recipe);
+            _appDb.SaveChanges();
 
             return RedirectToAction("Index");
         }
@@ -55,7 +56,20 @@ namespace MMFoodIdea.Controllers
             }
 
 
-            return View("Error",!ModelState.IsValid);
+            return View("Error");
         }
+
+        public async Task<IActionResult> DeleteComment(Comment comment)
+        {
+            if (ModelState.IsValid)
+            {
+                await _cServices.DeleteComment(comment);
+                return Ok();
+            }
+
+            return View("Error");
+        }
+
+
     }
 }

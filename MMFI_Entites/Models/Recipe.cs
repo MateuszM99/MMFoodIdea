@@ -12,6 +12,9 @@ namespace MMFI_Entites.Models
         public string RecipeName { get; set; }
         public int RecipeTime { get; set; }
         public List<Ingridient> Ingridients { get; set; }
-
+        public string UserId { get; set; }
+        public virtual AppUser Sender { get; set; }
+        
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

@@ -10,7 +10,8 @@ namespace MMFI_IServices
     public interface ICommentServices
     {
         Task PostComment(Comment comment);
-
+        Task DeleteComment(Comment comment);
+        Task EditComment(Comment comment);
         List<Comment> GetAllComments(int? id);
 
     }

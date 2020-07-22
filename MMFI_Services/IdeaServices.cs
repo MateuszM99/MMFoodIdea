@@ -1,73 +1,78 @@
 ﻿using MMFI_Data.Data;
 using MMFI_Entites.Models;
 using MMFI_IServices;
+using MMFoodIdea.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace MMFI_Services
+
 {
-    public class IdeaServices : IIdeaServices
-    {
-        private readonly IngridientsDbContext _ingridientsDb;
-        private readonly RecipeDbContext _recipeDb;
 
-        public IdeaServices(IngridientsDbContext ingridientsDb,RecipeDbContext recipeDb)
-        {
-            _ingridientsDb = ingridientsDb;
-            _recipeDb = recipeDb;
-        }
-        public List<Ingridient> AddIngridient(List<Ingridient> ingridients)
-        {
-            throw new NotImplementedException();
-        }
+   public class IdeaServices : IIdeaServices
+   {
+       private readonly IngridientsDbContext _ingridientsDb;
+       private readonly ApplicationDbContext _appDb;
 
-        public List<Recipe> FindRecipes(List<Ingridient> ingridients, int time)
-        {
+       public IdeaServices(IngridientsDbContext ingridientsDb, ApplicationDbContext appDb)
+       {
+           _ingridientsDb = ingridientsDb;
+           _appDb = appDb;
+       }
+       public List<Ingridient> AddIngridient(List<Ingridient> ingridients)
+       {
+           throw new NotImplementedException();
+       }
 
-           List<Recipe> recipes = _recipeDb.Recipes.Where(r => r.RecipeTime <= time &&  IsViable(ingridients,r.Ingridients)).ToList();
+      public List<Recipe> FindRecipes(List<Ingridient> ingridients, int time)
+      {
 
-            return recipes;
-        }
+          List<Recipe> recipes = _appDb.Recipes.Where(r => r.RecipeTime <= time &&  IsViable(ingridients,r.Ingridients)).ToList();
 
-        public List<Ingridient> RemoveIngridient(List<Ingridient> ingridients)
-        {
-            throw new NotImplementedException();
-        }
+           return recipes;
+       }
 
-        public List<Ingridient> SearchIngridient(string n)
-        {
-           List<Ingridient> ingridients = 
-                _ingridientsDb.Ingridients.Where(i => i.IngridientName.Contains(n)).ToList();
-            
-           return ingridients;
-        }
+       public List<Ingridient> RemoveIngridient(List<Ingridient> ingridients)
+       {
+           throw new NotImplementedException();
+       }
 
-        public Ingridient SearchIngridient(int id)
-        {
-            Ingridient ingridient =
-                 _ingridientsDb.Ingridients.FirstOrDefault(i => i.IngridientId == id);
+       public List<Ingridient> SearchIngridient(string n)
+       {
+          List<Ingridient> ingridients = 
+               _ingridientsDb.Ingridients.Where(i => i.IngridientName.Contains(n)).ToList();
 
-            return ingridient;
-        }
+          return ingridients;
+       }
+
+       public Ingridient SearchIngridient(int id)
+       {
+           Ingridient ingridient =
+                _ingridientsDb.Ingridients.FirstOrDefault(i => i.IngridientId == id);
+
+           return ingridient;
+       }
 
 
-        private bool IsViable(List<Ingridient> ingridients, List<Ingridient> recipeIngridients)
-        {
-            // If there is more ingridients in recipe than one has the recipe is unavailable
-            if (recipeIngridients.Count() > ingridients.Count())
-                return false;
+       private bool IsViable(List<Ingridient> ingridients, List<Ingridient> recipeIngridients)
+       {
+           // If there is more ingridients in recipe than one has the recipe is unavailable
+           if (recipeIngridients.Count() > ingridients.Count())
+               return false;
 
-            // If there is some ingridient that is in recipeIngridients and is not in ingridients the recipe is unavailable
-            foreach (Ingridient i in recipeIngridients) 
-            {
-                if (!ingridients.Contains(i))
-                    return false;
-            }
+           // If there is some ingridient that is in recipeIngridients and is not in ingridients the recipe is unavailable
+           foreach (Ingridient i in recipeIngridients) 
+           {
+               if (!ingridients.Contains(i))
+                   return false;
+           }
 
-            return true;
-        }
+           return true;
+       }
 
-    }
+   }
 }
+
+

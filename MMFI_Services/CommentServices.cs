@@ -2,6 +2,7 @@
 using MMFI_Entites.Models;
 using MMFI_Entites.ViewModels;
 using MMFI_IServices;
+using MMFoodIdea.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,10 @@ namespace MMFI_Services
 {
     public class CommentServices : ICommentServices
     {
-        private readonly RecipeDbContext _recipeDb;
-        public CommentServices(RecipeDbContext recipeDb)
+        private readonly ApplicationDbContext _appDb;
+        public CommentServices(ApplicationDbContext appDb)
         {
-            _recipeDb = recipeDb;
+            _appDb = appDb;
         }
 
         public List<Comment> GetAllComments(int? id)
@@ -23,7 +24,7 @@ namespace MMFI_Services
             if (id == null)
             return null;
             
-            return _recipeDb.Comments.Where(c => c.RecipeId == id).ToList();       
+            return _appDb.Comments.Where(c => c.RecipeId == id).ToList();       
         }
 
         public async Task PostComment(Comment comment)
@@ -31,9 +32,20 @@ namespace MMFI_Services
             comment.Date = DateTime.Now;
             comment.RecipeId = 1;
           
-            await _recipeDb.Comments.AddAsync(comment);
+           // await _appDb.Comments.AddAsync(comment);
             
-            await _recipeDb.SaveChangesAsync();          
+            await _appDb.SaveChangesAsync();          
+        }
+
+        public async Task DeleteComment(Comment comment)
+        {
+            _appDb.Remove(comment);
+            await _appDb.SaveChangesAsync();
+        }
+
+        public async Task EditComment(Comment comment)
+        {
+           
         }
     }
 }
