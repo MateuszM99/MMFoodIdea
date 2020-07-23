@@ -7,18 +7,45 @@
 <h1>Index</h1>
 
 
-<div class="card" id="commentSec">
-    @if (Model.comments != null)
-    {
-        foreach (var comment in Model.comments)
-        {           
-            <div class="card-body">                
-                    <p>@comment.Text</p>
-                    <span>@comment.Date.ToString()</span>              
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="page-header">
+                <h1><small class="pull-right">@Model.comments.Count()</small> Comments </h1>
             </div>
-        }
-    }
+            <div class="comments-list" id="commentSec">
+                @if (Model.comments != null)
+                {
+                    foreach (var comment in Model.comments)
+                    {
+                    <div class="media">
+                    <p class="pull-right"><small>@comment.Date.ToString()</small></p>                                       
+                    <div class="media-body">
+
+                        <h4 class="media-heading user_name">@comment.UserName</h4>
+                        
+                        @comment.Text
+
+                        <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
+                        @if (comment.UserId == Model.UserId)
+                        {
+                        <form asp-action="DeleteComment">
+                            <input type="hidden" asp-for="@comment.CommentID" />
+                            <button type="submit" id="deleteButton" class="btn btn-primary">Delete</button>                            
+                        </form>
+                        }
+                    </div>
+                    </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
+
 
 <form asp-action="LeaveComment" data-ajax-begin="clearInputField" data-ajax-complete="" data-ajax-failure="alert('Fail')" data-ajax-success="sendComment" data-ajax="true" data-ajax-method="POST">
 
@@ -31,8 +58,13 @@
 
 
 @section scripts {
-<script src="~/js/signalr/dist/browser/signalr.js"></script>
-<script src="~/lib/jquery/dist/jquery-unobtrusive-ajax.min.js"></script>
-<script src="~/js/comment.js"></script>
-<script src="~/js/signrReqHandler.js"></script>
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/lib/jquery/dist/jquery-unobtrusive-ajax.min.js"></script>
+    <script src="~/js/comment.js"></script>
+    <script src="~/js/signrReqHandler.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 }
+
+

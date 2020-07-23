@@ -17,6 +17,7 @@ using MMFI_IServices;
 using MMFI_Services;
 using MMFoodIdea.Hubs;
 using MMFoodIdea.Controllers;
+using MMFI_Entites.Models;
 
 namespace MMFoodIdea
 {
@@ -39,7 +40,7 @@ namespace MMFoodIdea
                 options.UseSqlServer(
                     Configuration.GetConnectionString("IngridientsDbContext")));
             
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();

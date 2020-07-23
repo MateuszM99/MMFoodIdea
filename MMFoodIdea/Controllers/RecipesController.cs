@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MMFI_Data.Data;
 using MMFI_Entites.Models;
@@ -15,20 +17,29 @@ namespace MMFoodIdea.Controllers
     {
         private readonly ApplicationDbContext _appDb;
         private readonly ICommentServices _cServices;
-        public RecipesController(ApplicationDbContext appDb, ICommentServices cServices)
+        private readonly UserManager<AppUser> _userManager;
+        public RecipesController(ApplicationDbContext appDb, ICommentServices cServices, UserManager<AppUser> userManager)
         {
+            _userManager = userManager;
             _appDb = appDb;
             _cServices = cServices;
         }
 
-        public IActionResult Index(int? id)
+        public async Task<IActionResult> Index(int? id)
         {
             CommentVM cvm = new CommentVM();
             
             if (id == null)
                 return View("Index",cvm);
 
-            
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser != null)
+            {
+                cvm.User = currentUser;
+
+                cvm.UserId = currentUser.Id;
+            }
 
             cvm.comments = _cServices.GetAllComments(id);
 
@@ -38,19 +49,24 @@ namespace MMFoodIdea.Controllers
         [HttpPost]
         public IActionResult CreateRecipe(Recipe recipe)
         {
-          //  _appDb.Recipes.Add(recipe);
+            _appDb.Recipes.Add(recipe);
             _appDb.SaveChanges();
 
             return RedirectToAction("Index");
         }
 
-       
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> LeaveComment(Comment comment)
         {
+            
 
             if (ModelState.IsValid)
-            {                
+            {               
+                comment.UserName = User.Identity.Name;
+                var sender = await _userManager.GetUserAsync(User);
+                comment.UserId = sender.Id;
+                comment.Sender = sender;
                 await _cServices.PostComment(comment);
                 return Ok();
             }
@@ -59,6 +75,7 @@ namespace MMFoodIdea.Controllers
             return View("Error");
         }
 
+        [Authorize]
         public async Task<IActionResult> DeleteComment(Comment comment)
         {
             if (ModelState.IsValid)

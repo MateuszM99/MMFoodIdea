@@ -10,6 +10,10 @@ namespace MMFI_Entites.ViewModels
     {
         public List<Comment> comments;
 
+        public AppUser User { get; set; }
+
+        public string UserId { get; set; }
+
         public int RecipeID { get; set; }
     }
 }
