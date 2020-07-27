@@ -26,7 +26,7 @@
                         
                         @comment.Text
 
-                        <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
+                        <p><small><button type="submit" id="likeButton" class=" btn btn-primary">Like</button> - <button type="submit" id="shareButton" class=" btn btn-primary">Share</button></small></p>
                         @if (comment.UserId == Model.UserId)
                         {
                         <form asp-action="DeleteComment">

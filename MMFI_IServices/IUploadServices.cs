@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MMFI_IServices
 {
-    public interface IUploadImage
+    public interface IUploadServices
     {
-        byte[] Upload(IFormFile file);
+        Task UploadingPhoto(IFormFile imageFile);
 
 
     }

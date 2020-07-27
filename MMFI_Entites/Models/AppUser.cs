@@ -12,10 +12,14 @@ namespace MMFI_Entites.Models
         {
             Recipes = new List<Recipe>();
             Comments = new List<Comment>();
+            Images = new List<Image>();
         }
-        public Image Image { get; set; }
+        public virtual ICollection<Image> Images { get; set; }
         public virtual ICollection<Recipe> Recipes { get; set; }        
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Follow> Followers { get; set; }
+
+       
 
     }
 }

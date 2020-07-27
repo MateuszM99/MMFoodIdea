@@ -15,6 +15,7 @@ namespace MMFI_Entites.Models
         public string UserId { get; set; }
         public virtual AppUser Sender { get; set; }
         
+        public virtual ICollection<Image> Images { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
     }
 }

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MMFI_Data2\MMFI_Data.csproj" />
     <ProjectReference Include="..\MMFI_IServices\MMFI_IServices.csproj" />
   </ItemGroup>

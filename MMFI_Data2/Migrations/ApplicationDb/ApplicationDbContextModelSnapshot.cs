@@ -29,13 +29,7 @@ namespace MMFI_Data.Migrations.ApplicationDb
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Likes")
-                        .HasColumnType("int");
-
                     b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ReplyID")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -56,6 +50,19 @@ namespace MMFI_Data.Migrations.ApplicationDb
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("MMFI_Entites.Models.CommentLike", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CommentId", "UserId");
+
+                    b.ToTable("CommentLikes");
+                });
+
             modelBuilder.Entity("MMFI_Entites.Models.Image", b =>
                 {
                     b.Property<int>("ImageId")
@@ -63,9 +70,25 @@ namespace MMFI_Data.Migrations.ApplicationDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ImageId");
 
-                    b.ToTable("Image");
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("MMFI_Entites.Models.Ingridient", b =>
@@ -321,11 +344,6 @@ namespace MMFI_Data.Migrations.ApplicationDb
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("ImageId");
-
                     b.HasDiscriminator().HasValue("AppUser");
                 });
 
@@ -340,6 +358,28 @@ namespace MMFI_Data.Migrations.ApplicationDb
                     b.HasOne("MMFI_Entites.Models.AppUser", "Sender")
                         .WithMany("Comments")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("MMFI_Entites.Models.CommentLike", b =>
+                {
+                    b.HasOne("MMFI_Entites.Models.Comment", null)
+                        .WithMany("Likes")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MMFI_Entites.Models.Image", b =>
+                {
+                    b.HasOne("MMFI_Entites.Models.AppUser", null)
+                        .WithMany("Images")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("MMFI_Entites.Models.Recipe", null)
+                        .WithMany("Images")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MMFI_Entites.Models.Ingridient", b =>
@@ -405,13 +445,6 @@ namespace MMFI_Data.Migrations.ApplicationDb
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("MMFI_Entites.Models.AppUser", b =>
-                {
-                    b.HasOne("MMFI_Entites.Models.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
                 });
 #pragma warning restore 612, 618
         }

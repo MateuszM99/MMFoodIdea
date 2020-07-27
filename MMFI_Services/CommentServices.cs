@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MMFI_Entites.Models;
 using MMFI_IServices;
 using MMFoodIdea.Data;
@@ -45,9 +46,29 @@ namespace MMFI_Services
             await _appDb.SaveChangesAsync();
         }
 
-        public async Task EditComment(Comment comment)
+       
+
+        public async Task CommentLiking(Comment comment,string userId)
         {
-           
+            var hasUserLiked = await _appDb.CommentLikes
+                                            .Where(x => x.CommentId == comment.CommentID && x.UserId == userId).AnyAsync();
+            if (hasUserLiked != true)
+            {
+                CommentLike cl = new CommentLike();
+                cl.CommentId = comment.CommentID;
+                cl.UserId = userId;
+                await _appDb.CommentLikes.AddAsync(cl);
+            }
+            else
+            {
+                var cl = await _appDb.CommentLikes.FindAsync(userId, comment.CommentID);
+                _appDb.Remove(cl);
+            }
+        }
+
+        public Task EditComment(Comment comment)
+        {
+            throw new NotImplementedException();
         }
     }
 }

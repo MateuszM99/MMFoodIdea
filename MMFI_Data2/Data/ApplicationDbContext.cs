@@ -17,6 +17,10 @@ namespace MMFoodIdea.Data
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
+        public DbSet<CommentLike> CommentLikes { get; set; }
+
+        public DbSet<Image> Images { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -36,6 +40,12 @@ namespace MMFoodIdea.Data
                 .HasOne<Recipe>(r => r.Recipe)
                 .WithMany(c => c.Comments)
                 .HasForeignKey(i => i.RecipeId);
+                                      
+            builder.Entity<CommentLike>()
+                .HasKey(c => new { c.CommentId,c.UserId} );
+
+            builder.Entity<AppUser>()
+                .HasMany<Image>(x => x.Images);
             
         }
     }
