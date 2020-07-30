@@ -26,7 +26,7 @@ namespace MMFI_Services
         
         public async Task UploadingPhoto(IFormFile imageFile)
         {
-            string extension = Path.GetExtension(imageFile.FileName);
+           /* string extension = Path.GetExtension(imageFile.FileName);
 
             string path = String.Format("wwwroot/images/Users/{0}", _userManager.GetUserId(User));
 
@@ -74,7 +74,7 @@ namespace MMFI_Services
 
             _appDb.Images.Add(dbImage);
 
-            await _appDb.SaveChangesAsync();
+            await _appDb.SaveChangesAsync();*/
         }
 
     }

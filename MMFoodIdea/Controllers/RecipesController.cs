@@ -52,6 +52,11 @@ namespace MMFoodIdea.Controllers
             return View(cvm);
         }
 
+        public IActionResult Select()
+        {
+            return View("RecipesSelect");
+        }
+
         [HttpPost]
         public IActionResult CreateRecipe(Recipe recipe)
         {

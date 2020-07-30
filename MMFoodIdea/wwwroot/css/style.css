@@ -1,0 +1,67 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.mynavbar{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 8vh;
+    font-family: 'Poppins', sans-serif;
+    background-color: rgb(238, 127, 0);
+}
+
+.mylogo{
+    color : white;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-size: 18px;
+    position: relative;
+    left: 300px;   
+}
+
+.container{
+    display:flex;
+    position: relative;
+    left: 300px;
+}
+
+
+.btn-default{
+    color: white;   
+    width: 50px;
+    height: 40px;
+    padding: 0px;
+}
+
+.form-control{
+    padding: 25px;
+    font-size: 20px;
+    width : 40%;
+}
+
+.nav-links{
+    display: flex;
+    justify-content: space-around;
+    width: 20%;
+    position: relative;
+    right: 300px;   
+}
+
+.items {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;   
+}
+
+.nav-links li{
+    list-style: none;
+}
+
+.move{
+    position: relative;
+    left: 200px;
+}
