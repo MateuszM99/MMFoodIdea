@@ -33,17 +33,18 @@
                 </div>
             </form>
         </div>
-        <ul class="nav-links" >
+        <ul class="nav-links">
             <li class="items"><a><i class="far fa-clock"></i>Latest</a></li>
             <li class="items"><a><i class="far fa-star"></i>Popular</a></li>
             <li class="items"><a><i class="far fa-heart"></i>Liked</a></li>
             @if (SignInManager.IsSignedIn(User))
             {
-                <li class="items"><a class="move">Profile</a></li>
+
+                <li class="items"><a class="move" asp-action="Users" asp-controller="Recipes">Profile</a></li>
                 <li class="items"><a class="move">Logout</a></li>
             }
             else
-            {
+            {                
                 <li class="items">
                     <a class="move" asp-area="Identity" asp-page="/Account/Register">Register</a>
                 </li>
