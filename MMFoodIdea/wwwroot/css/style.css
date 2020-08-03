@@ -4,7 +4,13 @@
     box-sizing: border-box;
 }
 
-.mynavbar{
+body{
+    background-color: white;
+    margin-bottom: 200px;
+}
+
+
+.navbar{
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -19,28 +25,17 @@
     letter-spacing: 5px;
     font-size: 18px;
     position: relative;
-    left: 300px;   
+    left: 200px;   
 }
 
 .container{
-    display:flex;
+    display: flex;
     position: relative;
     left: 300px;
 }
 
 
-.btn-default{
-    color: white;   
-    width: 50px;
-    height: 40px;
-    padding: 0px;
-}
 
-.form-control{
-    padding: 25px;
-    font-size: 20px;
-    width : 40%;
-}
 
 .nav-links{
     display: flex;
@@ -50,18 +45,82 @@
     right: 300px;   
 }
 
-.items {
+.items{
     color: white;
     text-decoration: none;
     font-weight: bold;
-    font-size: 16px;   
+    font-size: 16px;
+    align-items: center;    
 }
 
 .nav-links li{
     list-style: none;
 }
 
-.move{
+.nav-links li img{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+ul i{
+    padding: 5px;
+}
+
+
+.move1{
     position: relative;
     left: 200px;
 }
+
+.move2{
+    position: relative;
+    left: 210px;
+}
+
+
+.recipe-container{
+    margin-top: 15px;
+    margin-left: 550px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.recipe{
+    position: relative;
+    width: 1000px;
+    height: 200px;
+    border: solid 0.7px grey;
+}
+
+.img-space img{
+    float: left;
+    margin-top: 15px;
+    margin-left: 10px;
+    height: 150px;
+    width: 200px;
+    border-radius: 8px;
+}
+
+.rating{
+    position: relative;
+    top: 170px;
+    right: 180px;
+}
+
+.recipe-info{
+    position: relative;
+    left: 25px;
+    
+}
+
+.recipe-info h4{
+    padding: 10px;
+}
+
+.recipe-info h6{
+    padding: 10px;
+}
+
+ion-icon {
+    color: orange;
+  }
