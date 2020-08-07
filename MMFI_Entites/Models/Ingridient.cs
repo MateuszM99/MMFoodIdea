@@ -9,9 +9,7 @@ namespace MMFI_Entites.Models
     {
         [Key]
         public int IngridientId { get; set; }
-
-        public string IngridientName { get; set; }
-
-
+        public string Name { get; set; }
+        public IList<RecipeIngridients> RecipeIngridients { get; set; }
     }
 }

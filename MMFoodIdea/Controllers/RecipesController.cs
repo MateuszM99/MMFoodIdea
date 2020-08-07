@@ -52,23 +52,25 @@ namespace MMFoodIdea.Controllers
             return View(cvm);
         }
 
+        [HttpGet]
         public IActionResult Select()
         {
             return View("RecipesSelect");
         }
 
+        [Authorize]
+        [HttpGet]
         public IActionResult Users()
         {
             return View("UsersProfile");
         }
 
-        [HttpPost]
-        public IActionResult CreateRecipe(Recipe recipe)
+        [Authorize]
+        [HttpGet]
+        public IActionResult CreateRecipe()
         {
-            _appDb.Recipes.Add(recipe);
-            _appDb.SaveChanges();
-
-            return RedirectToAction("Index");
+           
+            return View("CreateRecipe");
         }
 
         [Authorize]

@@ -29,9 +29,10 @@ namespace MMFI_Services
       public List<Recipe> FindRecipes(List<Ingridient> ingridients, int time)
       {
 
-          List<Recipe> recipes = _appDb.Recipes.Where(r => r.RecipeTime <= time &&  IsViable(ingridients,r.Ingridients)).ToList();
+            // List<Recipe> recipes = _appDb.Recipes.Where(r => r.RecipeTime <= time &&  IsViable(ingridients,r.Ingridients)).ToList();
 
-           return recipes;
+            //  return recipes;
+            return null;
        }
 
        public List<Ingridient> RemoveIngridient(List<Ingridient> ingridients)
@@ -42,7 +43,7 @@ namespace MMFI_Services
        public List<Ingridient> SearchIngridient(string n)
        {
           List<Ingridient> ingridients = 
-               _ingridientsDb.Ingridients.Where(i => i.IngridientName.Contains(n)).ToList();
+               _ingridientsDb.Ingridients.Where(i => i.Name.Contains(n)).ToList();
 
           return ingridients;
        }

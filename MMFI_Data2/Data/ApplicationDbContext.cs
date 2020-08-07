@@ -15,11 +15,18 @@ namespace MMFoodIdea.Data
         }
 
         public DbSet<Recipe> Recipes { get; set; }
+
+        public DbSet<Ingridient> Ingridients { get; set; }
+
+        public DbSet<RecipeIngridients> RecipeIngridients  { get; set; }
+
         public DbSet<Comment> Comments { get; set; }
 
         public DbSet<CommentLike> CommentLikes { get; set; }
 
         public DbSet<Image> Images { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -46,7 +53,21 @@ namespace MMFoodIdea.Data
 
             builder.Entity<AppUser>()
                 .HasMany<Image>(x => x.Images);
-            
+
+            builder.Entity<RecipeIngridients>()
+                 .HasKey(k => new { k.RecipeId, k.IngridientId });
+
+            builder.Entity<RecipeIngridients>()
+                .HasOne<Recipe>(r => r.Recipe)
+                .WithMany(i => i.RecipeIngridients)
+                .HasForeignKey(r => r.RecipeId);
+
+
+            builder.Entity<RecipeIngridients>()
+                .HasOne<Ingridient>(i => i.Ingridient)
+                .WithMany(r => r.RecipeIngridients)
+                .HasForeignKey(i => i.IngridientId);
+
         }
     }
 }

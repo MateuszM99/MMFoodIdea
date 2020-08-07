@@ -16,37 +16,40 @@
 <body>
 
     <div class="container">
-        <h1 class="create-recipe">Create Recipe<i class="fas fa-utensils"></i></h1>
-        <div class="box">
-            <div class="recipe-title">
-                <h3>Enter recipe title :</h3>
-                <input type="text" class="title" placeholder="Enter title here">
+        <form asp-action="CreateRecipe" method="post">
+            <h1 class="create-recipe">Create Recipe<i class="fas fa-utensils"></i></h1>
+            <div class="box">
+                <div class="recipe-title">
+                    <h3>Enter recipe title :</h3>
+                    <input type="text" name="RecipeName" class="title" placeholder="Enter title here">
+                </div>
+                <div class="time-input">
+                    <h3>How much time does it take :</h3>
+                    <input type="text" name="RecipeTime" class="title" placeholder="Enter time here">
+                </div>
+                <div class="portions-input">
+                    <h3>Select number of portions :</h3>
+                    <input type="text" name="RecipePortions" class="title" placeholder="Enter portions here">
+                </div>
+                <div class="category-input">
+                    <h3>Select a category for your recipe :</h3>
+                    <input type="text" name="RecipeCategory" class="title" placeholder="Enter category here">
+                </div>
+                <div class="add-ingridients">
+                    <h3 class="">Add Ingridient :</h3>
+                    <input type="text" class="ingridient-input" placeholder="Enter ingridient name">                   
+                    <a class="add-ingridient"></a>
+                </div>
+                <div class="ingridients-list">
+                    <h3>Ingridients :</h3>
+                </div>
+                <div class="instructions">
+                    <h3>Write down the steps here :</h3>
+                    <textarea name="RecipeInstructions"></textarea>
+                </div>
             </div>
-            <div class="time-input">
-                <h3>How much time does it take :</h3>
-                <input type="text" class="title" placeholder="Enter time here">
-            </div>
-            <div class="portions-input">
-                <h3>Select number of portions :</h3>
-                <input type="text" class="title" placeholder="Enter portions here">
-            </div>
-            <div class="category-input">
-                <h3>Select a category for your recipe :</h3>
-                <input type="text" class="title" placeholder="Enter category here">
-            </div>
-            <div class="add-ingridients">
-                <h3 class="">Add Ingridient :</h3>
-                <input type="text" class="ingridient-input" placeholder="Enter ingridient name">
-                <a class="add-ingridient"></a>
-            </div>
-            <div class="ingridients-list">
-                <h3>Ingridients :</h3>
-            </div>
-            <div class="instructions">
-                <h3>Write down the steps here :</h3>
-                <textarea></textarea>
-            </div>
-        </div>
+            <button type="submit" class="btn btn-primary">Add recipe</button>
+        </form>
     </div>
 
 

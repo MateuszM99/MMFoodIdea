@@ -4,14 +4,16 @@ using MMFoodIdea.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MMFI_Data.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200804105341_RecipeAdds")]
+    partial class RecipeAdds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,12 +117,17 @@ namespace MMFI_Data.Migrations.ApplicationDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("IngridientName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RecipeId")
+                        .HasColumnType("int");
 
                     b.HasKey("IngridientId");
 
-                    b.ToTable("Ingridients");
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("Ingridient");
                 });
 
             modelBuilder.Entity("MMFI_Entites.Models.Recipe", b =>
@@ -150,21 +157,6 @@ namespace MMFI_Data.Migrations.ApplicationDb
                     b.HasIndex("UserId");
 
                     b.ToTable("Recipes");
-                });
-
-            modelBuilder.Entity("MMFI_Entites.Models.RecipeIngridients", b =>
-                {
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IngridientId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RecipeId", "IngridientId");
-
-                    b.HasIndex("IngridientId");
-
-                    b.ToTable("RecipeIngridients");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -422,26 +414,18 @@ namespace MMFI_Data.Migrations.ApplicationDb
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MMFI_Entites.Models.Ingridient", b =>
+                {
+                    b.HasOne("MMFI_Entites.Models.Recipe", null)
+                        .WithMany("Ingridients")
+                        .HasForeignKey("RecipeId");
+                });
+
             modelBuilder.Entity("MMFI_Entites.Models.Recipe", b =>
                 {
                     b.HasOne("MMFI_Entites.Models.AppUser", "Sender")
                         .WithMany("Recipes")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("MMFI_Entites.Models.RecipeIngridients", b =>
-                {
-                    b.HasOne("MMFI_Entites.Models.Ingridient", "Ingridient")
-                        .WithMany("RecipeIngridients")
-                        .HasForeignKey("IngridientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MMFI_Entites.Models.Recipe", "Recipe")
-                        .WithMany("RecipeIngridients")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
