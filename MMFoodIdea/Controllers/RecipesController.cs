@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -55,7 +56,11 @@ namespace MMFoodIdea.Controllers
         [HttpGet]
         public IActionResult Select()
         {
-            return View("RecipesSelect");
+            RecipesMainVM mainVM = new RecipesMainVM();
+
+            mainVM.Recipes = _appDb.Recipes.ToList();
+
+            return View("RecipesSelect",mainVM);
         }
 
         [Authorize]
@@ -71,6 +76,58 @@ namespace MMFoodIdea.Controllers
         {
            
             return View("CreateRecipe");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> CreateRecipe(Recipe recipe)
+        {
+            recipe.Sender = await _userManager.GetUserAsync(User);
+            recipe.UserId = recipe.Sender.Id;
+            recipe.PostedOn = DateTime.Now;
+
+            var images = _appDb.Images.Where(i => i.RecipeId == recipe.RecipeId && i.UserId == recipe.UserId).ToList();
+
+            recipe.Images = images;
+
+            await _appDb.AddAsync(recipe);
+
+            await _appDb.SaveChangesAsync();
+
+            RecipeVM recipeVM = new RecipeVM();
+
+            recipeVM.RecipeName = recipe.RecipeName;
+            recipeVM.RecipeCategory = recipe.RecipeCategory;
+            recipeVM.RecipePortions = recipe.RecipePortions;
+            recipeVM.RecipeTime = recipe.RecipeTime;
+            recipeVM.RecipeInstructions = recipe.RecipeInstructions;
+            recipeVM.Sender = recipe.Sender;
+            recipeVM.PostedOn = recipe.PostedOn;
+            recipeVM.Images = recipe.Images;
+
+            return View("RecipePage", recipeVM);
+        }
+
+        [HttpGet]
+        [Route("Recipes/GetRecipe/{id}")]
+        public async Task<IActionResult> GetRecipe(int id)
+        {
+            Recipe recipe = _appDb.Recipes.Find(id);
+
+            var sender = await _userManager.FindByIdAsync(recipe.UserId);
+
+            RecipeVM recipeVM = new RecipeVM();
+
+            recipeVM.RecipeName = recipe.RecipeName;
+            recipeVM.RecipeCategory = recipe.RecipeCategory;
+            recipeVM.RecipePortions = recipe.RecipePortions;
+            recipeVM.RecipeTime = recipe.RecipeTime;
+            recipeVM.RecipeInstructions = recipe.RecipeInstructions;
+            recipeVM.Sender = sender;
+            recipeVM.PostedOn = recipe.PostedOn;
+            recipeVM.Images = recipe.Images;
+
+            return View("RecipePage",recipeVM);
         }
 
         [Authorize]
