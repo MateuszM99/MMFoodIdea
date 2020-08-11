@@ -3,86 +3,125 @@
 
 @{
     Layout = null;
+    
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="~/css/recipe-page.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
-    <script src="~/js/recipe-page-scripts.js"></script>
-    <title>Document</title>
-</head>
-<body onload="currentSlide(1)">
-    <partial name="_NavbarPartial" />
-    <div class="container">
-        <div class="button">
-            <button class="like-button">Like</button>
-        </div>
-        <div class="recipe-title">
-            <h1>Recipe Title</h1>
-        </div>
-        <div class="slideshow-container">
-            @if (Model.Images != null && Model.Images.Count > 0)
-            {
-            @foreach (var image in Model.Images)
-            {
-                var counter = 1;
-            <div class="images">
-                <div class="numbertext"> @counter/@Model.Images.Count</div>
-                <img src="@image.ImagePath">
 
-                <div class="recipe-info">
-                    <p>Servings : @Model.RecipePortions</p>
-                    <p>Time to prepare : @Model.RecipeTime</p>
-                    <p></p>
+    <head>
+        <link rel="stylesheet" href="~/css/recipe-page.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="~/lib/jquery/dist/jquery-unobtrusive-ajax.min.js"></script>
+        <script src="~/js/recipe-page-scripts.js"></script>
+        <script src="~/js/likes.js?n=1"></script>     
+        <script src="~/js/comments.js"></script>    
+    </head>
+
+    <body onload="currentSlide(1)">
+
+        <div class="container">
+            <div class="recipe-container">
+                <div class="button">
+                    <button class="like-button">Like</button>
+                </div>
+                <div class="recipe-title">
+                    <h1>Recipe Title</h1>
+                </div>
+                <div class="slideshow-container">
+                    @if (Model.Images != null && Model.Images.Count > 0)
+                    {
+                        @foreach (var image in Model.Images)
+                        {
+                            var counter = 1;
+                            <div class="images">
+                                <div class="numbertext"> @counter/@Model.Images.Count</div>
+                                <img src="@image.ImagePath">
+
+                                <div class="recipe-info">
+                                    <p>Servings : @Model.RecipePortions</p>
+                                    <p>Time to prepare : @Model.RecipeTime</p>
+                                    <p></p>
+                                </div>
+                            </div>
+                        }
+                    }
+                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                </div>
+                <br>
+                <div style="text-align:center">
+                    <span class="dot" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                </div>
+
+                <div class="ingridients-list">
+                    <div class="adjustment">
+                        <div class="counter">
+                            <button class="adjust-minus" onclick="decreaseCounter()">-</button>
+                            <div class="adjustment-size" id="counter">1</div>
+                            <button class="adjust-plus" onclick="increaseCounter()">+</button>
+                        </div>
+                        <button class="adjustment-button">Adjustment button</button>
+                    </div>
+                    <h1>Ingridients :</h1>
+                    <ul>
+                        @if (Model.Ingridients != null && Model.Ingridients.Count > 0)
+                        {
+                            @foreach (var ingridient in Model.Ingridients)
+                            {
+                                <li>@ingridient.Name</li>
+
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="recipe-instructions">
+                    <h1>Instructions :</h1>
+                    <p>
+                        @Model.RecipeInstructions
+                    </p>
+                </div>
+                <div class="author">
+                    <a>@Model.Sender.UserName</a>
+                    <p>@Model.PostedOn</p>
                 </div>
             </div>
-            }
-            }
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
-        </div>
-        <br>
-        <div style="text-align:center">
-            <span class="dot" onclick="currentSlide(1)"></span>
-            <span class="dot" onclick="currentSlide(2)"></span>
-            <span class="dot" onclick="currentSlide(3)"></span>
-        </div>
 
-        <div class="ingridients-list">
-            <div class="adjustment">
-                <div class="counter">
-                    <button class="adjust-minus" onclick="decreaseCounter()">-</button>
-                    <div class="adjustment-size" id="counter">1</div>
-                    <button class="adjust-plus" onclick="increaseCounter()">+</button>
-                </div>
-                <button class="adjustment-button">Adjustment button</button>
+            <div class="comment-section">
+                <h2>Comments</h2>
+                <p>@Model.Comments.Count Comments </p>
             </div>
-            <h1>Ingridients :</h1>
-            <ul>
-                @if (Model.Ingridients != null && Model.Ingridients.Count > 0)
-                {
-                @foreach (var ingridient in Model.Ingridients)
-                {
-                <li>@ingridient.Name</li>             
-                }
-                }
-            </ul>
+
+
+            <div class="add-comment">
+                <div class="c-user-image">
+                    <img src="https://image.shutterstock.com/image-vector/vector-simple-male-profile-icon-260nw-1388357696.jpg">
+                    <div class="add-title">
+                        <h4>Add comment</h4>
+                    </div>
+                    <form asp-action="LeaveComment" method="post" data-ajax="true" data-ajax-method="POST">
+                        <div class="comment-text">
+                            <input type="hidden" name="RecipeId" value="@Model.RecipeId" />
+                            <input name="Text" id="text" type="text">
+                        </div>
+                        <div class="comment-submit">
+                            <button type="submit" id="submitButton" onclick="commentAdd()">Submit</button>
+                            <button>Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="comments">
+
+                <partial name="_Comment"model="Model.Comments"/>
+              
+            </div>            
+        
         </div>
-        <div class="recipe-instructions">
-            <h1>Instructions :</h1>
-            <p>
-                @Model.RecipeInstructions
-            </p>
-        </div>
-        <div class="author">
-            <a>@Model.Sender.UserName</a>
-            <p>@Model.PostedOn</p>
-        </div>
-    </div>
-</body>
-</html>
+           
+
+    </body>
+
 

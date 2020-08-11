@@ -1,0 +1,33 @@
+﻿@model List<MMFI_Entites.Models.Comment>
+
+
+@if (Model != null && Model.Count > 0)
+{
+    @foreach (var comment in Model)
+    {
+        <div class="comment-container">
+            <div class="c-user-image">
+                <img src="https://image.shutterstock.com/image-vector/vector-simple-male-profile-icon-260nw-1388357696.jpg">
+                <div class="comment-info">
+                    <p>@comment.Sender.UserName</p>
+                    <p>@comment.Date</p>
+                </div>
+                <div class="comment-text">
+                    <p>@comment.Text</p>
+                </div>
+                <div class="comment-likes">
+                    <form asp-action="OnLikeClick" method="post" data-ajax-success="like" data-ajax="true" data-ajax-method="POST" data-ajax-failure="alert('Fail')">
+                        <input type="hidden" name="CommentID" value="@comment.CommentID" />
+                        <button type="submit"><img src="https://img.icons8.com/windows/32/000000/facebook-like.png" /></button>
+                    </form>
+                    <p id="likes">@comment.Likes </p>
+                    <form asp-action="OnDislikeClick" asp-controller="Recipes">
+                        <input type="hidden" name="CommentID" value="@comment.CommentID" />
+                        <button type="submit"><img src="https://img.icons8.com/windows/32/000000/thumbs-down.png" /></button>
+                    </form>
+                    <p>@comment.Dislikes </p>
+                </div>
+            </div>
+        </div>
+    }
+}

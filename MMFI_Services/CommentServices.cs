@@ -32,9 +32,7 @@ namespace MMFI_Services
 
         public async Task PostComment(Comment comment)
         {            
-            comment.Date = DateTime.Now;
-            comment.Recipe = new Recipe();
-            comment.RecipeId = 1;                                           
+            comment.Date = DateTime.Now;                                           
             await _appDb.Comments.AddAsync(comment);
             
             await _appDb.SaveChangesAsync();          
@@ -50,21 +48,76 @@ namespace MMFI_Services
 
         public async Task CommentLiking(Comment comment,string userId)
         {
-            var hasUserLiked = await _appDb.CommentLikes
-                                            .Where(x => x.CommentId == comment.CommentID && x.UserId == userId).AnyAsync();
-            if (hasUserLiked != true)
+            var userLike = await _appDb.CommentLikes
+                                            .Where(x => x.CommentId == comment.CommentID && x.UserId == userId).FirstOrDefaultAsync();
+
+            if (userLike != null)
+            {
+                if (userLike.isDislike == true)
+                {
+                    _appDb.Remove(userLike);
+                    userLike = null;
+                }
+            }
+
+            if (userLike != null)
+            {
+                if (userLike.isLike == true)
+                {
+                    var cl = await _appDb.CommentLikes.FindAsync(comment.CommentID,userId);
+                    _appDb.Remove(cl);
+                    await _appDb.SaveChangesAsync();
+                }
+            }
+
+            if (userLike == null)
             {
                 CommentLike cl = new CommentLike();
                 cl.CommentId = comment.CommentID;
                 cl.UserId = userId;
+                cl.isLike = true;
                 await _appDb.CommentLikes.AddAsync(cl);
+                await _appDb.SaveChangesAsync();
             }
-            else
+                       
+        }
+
+        public async Task CommentDisliking(Comment comment, string userId)
+        {
+            var userLike = await _appDb.CommentLikes
+                                             .Where(x => x.CommentId == comment.CommentID && x.UserId == userId).FirstOrDefaultAsync();
+
+            if (userLike != null)
             {
-                var cl = await _appDb.CommentLikes.FindAsync(userId, comment.CommentID);
-                _appDb.Remove(cl);
+                if (userLike.isLike == true)
+                {
+                    _appDb.Remove(userLike);
+                    userLike = null;
+                }
+            }
+
+            if (userLike != null)
+            {
+                if (userLike.isDislike == true)
+                {
+                    var cl = await _appDb.CommentLikes.FindAsync(comment.CommentID, userId);
+                    _appDb.Remove(cl);
+                    await _appDb.SaveChangesAsync();
+                }
+            }
+
+            if (userLike == null)
+            {
+                CommentLike cl = new CommentLike();
+                cl.CommentId = comment.CommentID;
+                cl.UserId = userId;
+                cl.isDislike = true;
+                await _appDb.CommentLikes.AddAsync(cl);
+                await _appDb.SaveChangesAsync();
             }
         }
+
+
 
         public Task EditComment(Comment comment)
         {

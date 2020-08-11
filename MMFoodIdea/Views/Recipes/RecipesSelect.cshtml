@@ -19,37 +19,34 @@
 
         @if (Model.Recipes != null && Model.Recipes.Count > 0)
         {
-        @foreach (var recipe in Model.Recipes)
-        {
-        <div class="recipe-container">
-            <div class="recipe">
-                <div class="img-space">
-                    <img src="https://www.foodiesfeed.com/wp-content/uploads/2019/06/top-view-for-box-of-2-burgers-home-made.jpg">
+            @foreach (var recipe in Model.Recipes)
+            {
+                <div class="recipe-container">
+                    <div class="recipe">
+                        <div class="img-space">
+                            <img src="https://www.foodiesfeed.com/wp-content/uploads/2019/06/top-view-for-box-of-2-burgers-home-made.jpg">
+                        </div>
+                        <div class="rating">
+                            <ion-icon name="star"></ion-icon>
+                            <ion-icon name="star"></ion-icon>
+                            <ion-icon name="star"></ion-icon>
+                            <ion-icon name="star"></ion-icon>
+                            <ion-icon name="star"></ion-icon>
+                            <span>(1837)</span>
+                        </div>
+                        <div class="recipe-info">                
+                            @Html.ActionLink(@recipe.RecipeName,
+                            "GetRecipe",  // <-- ActionMethod.
+                            "Recipes",   // <-- Controller Name
+                            new { id = recipe.RecipeId }, // <-- Route arguments.
+                            null)
+                            <h6>@recipe.RecipeCategory</h6>
+                            <h6>@recipe.RecipePortions</h6>
+                            <h6>@recipe.RecipeTime</h6>
+                        </div>
+                    </div>
                 </div>
-                <div class="rating">
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <ion-icon name="star"></ion-icon>
-                    <span>(1837)</span>
-                </div>
-                <div class="recipe-info">                
-                    @Html.ActionLink(@recipe.RecipeName,
-                    "GetRecipe",  // <-- Controller Name.
-                    "Recipes",   // <-- ActionMethod
-                    new { id = recipe.RecipeId }, // <-- Route arguments.
-                    null  // <-- htmlArguments .. which are none. You need this value
-                      //     otherwise you call the WRONG method ...
-                      //     (refer to comments, below).
-                    )
-                    <h6>@recipe.RecipeCategory</h6>
-                    <h6>@recipe.RecipePortions</h6>
-                    <h6>@recipe.RecipeTime</h6>
-                </div>
-            </div>
-        </div>
-        }
+            }
         }
         <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
 

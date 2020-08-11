@@ -15,7 +15,6 @@ using Microsoft.Extensions.Hosting;
 using MMFI_Data.Data;
 using MMFI_IServices;
 using MMFI_Services;
-using MMFoodIdea.Hubs;
 using MMFoodIdea.Controllers;
 using MMFI_Entites.Models;
 
@@ -56,8 +55,7 @@ namespace MMFoodIdea
                 });
 
             services.AddScoped<ICommentServices, CommentServices>();
-
-            services.AddSignalR();
+          
 
         }
 
@@ -90,8 +88,7 @@ namespace MMFoodIdea
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
-                endpoints.MapHub<CommentHub>("/commentHub");
+                endpoints.MapRazorPages();               
             });
         }
     }

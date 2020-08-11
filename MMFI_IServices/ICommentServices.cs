@@ -13,6 +13,7 @@ namespace MMFI_IServices
         Task DeleteComment(Comment comment);
         Task EditComment(Comment comment);
         Task CommentLiking(Comment comment, string userId);
+        Task CommentDisliking(Comment comment, string userId);
         List<Comment> GetAllComments(int? id);
     }
 }

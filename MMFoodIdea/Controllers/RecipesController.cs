@@ -29,28 +29,7 @@ namespace MMFoodIdea.Controllers
 
         public async Task<IActionResult> Index(int? id)
         {
-            CommentVM cvm = new CommentVM();
-            
-            if (id == null)
-                return View("Index",cvm);
-
-            var currentUser = await _userManager.GetUserAsync(User);
-
-            if (currentUser != null)
-            {
-                cvm.User = currentUser;
-
-                cvm.UserId = currentUser.Id;
-            }
-
-            cvm.comments = _cServices.GetAllComments(id);            
-
-            foreach(var c in cvm.comments)
-            {
-                c.Likes = await _appDb.CommentLikes.Where(x => x.CommentId == c.CommentID).ToListAsync();
-            }
-
-            return View(cvm);
+            return View();
         }
 
         [HttpGet]
@@ -109,7 +88,6 @@ namespace MMFoodIdea.Controllers
         }
 
         [HttpGet]
-        [Route("Recipes/GetRecipe/{id}")]
         public async Task<IActionResult> GetRecipe(int id)
         {
             Recipe recipe = _appDb.Recipes.Find(id);
@@ -118,6 +96,7 @@ namespace MMFoodIdea.Controllers
 
             RecipeVM recipeVM = new RecipeVM();
 
+            recipeVM.RecipeId = recipe.RecipeId;
             recipeVM.RecipeName = recipe.RecipeName;
             recipeVM.RecipeCategory = recipe.RecipeCategory;
             recipeVM.RecipePortions = recipe.RecipePortions;
@@ -126,6 +105,13 @@ namespace MMFoodIdea.Controllers
             recipeVM.Sender = sender;
             recipeVM.PostedOn = recipe.PostedOn;
             recipeVM.Images = recipe.Images;
+            recipeVM.Comments = _appDb.Comments.Where(c => c.RecipeId == id).ToList();
+
+            foreach(var comment in recipeVM.Comments)
+            {
+                comment.Likes = _appDb.CommentLikes.Where(c => c.CommentId == comment.CommentID && c.isLike == true).ToList().Count;
+                comment.Dislikes = _appDb.CommentLikes.Where(c => c.CommentId == comment.CommentID && c.isDislike == true).ToList().Count;
+            }
 
             return View("RecipePage",recipeVM);
         }
@@ -143,7 +129,10 @@ namespace MMFoodIdea.Controllers
                 comment.UserId = sender.Id;
                 comment.Sender = sender;
                 await _cServices.PostComment(comment);
-                return Ok();
+
+                var comments = _cServices.GetAllComments(comment.RecipeId);
+
+                return PartialView("_Comment", comments);
             }
 
 
@@ -178,16 +167,31 @@ namespace MMFoodIdea.Controllers
             return View("Error");
         }
 
-        [Authorize]
+       [HttpPost]
         public async Task<IActionResult> OnLikeClick(Comment comment)
         {
             if (ModelState.IsValid)
             {
                 var userId = _userManager.GetUserId(User);
 
-                await _cServices.CommentLiking(comment, userId);
-                
-                
+               await _cServices.CommentLiking(comment, userId);
+
+                return Ok();
+            }
+
+            return View("Error");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> OnDislikeClick(Comment comment)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = _userManager.GetUserId(User);
+
+                await _cServices.CommentDisliking(comment, userId);
+
+
                 return Ok();
             }
 
