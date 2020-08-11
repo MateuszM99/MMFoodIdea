@@ -90,7 +90,7 @@
 
             <div class="comment-section">
                 <h2>Comments</h2>
-                <p>@Model.Comments.Count Comments </p>
+                <p><b id="count">@Model.Comments.Count</b> Comments </p>
             </div>
 
 
@@ -99,17 +99,15 @@
                     <img src="https://image.shutterstock.com/image-vector/vector-simple-male-profile-icon-260nw-1388357696.jpg">
                     <div class="add-title">
                         <h4>Add comment</h4>
-                    </div>
-                    <form asp-action="LeaveComment" method="post" data-ajax="true" data-ajax-method="POST">
+                    </div>                  
                         <div class="comment-text">
-                            <input type="hidden" name="RecipeId" value="@Model.RecipeId" />
+                            <input type="hidden" name="RecipeId" id="recipeId" value="@Model.RecipeId" />
                             <input name="Text" id="text" type="text">
                         </div>
                         <div class="comment-submit">
                             <button type="submit" id="submitButton" onclick="commentAdd()">Submit</button>
                             <button>Cancel</button>
-                        </div>
-                    </form>
+                        </div>                   
                 </div>
             </div>
 

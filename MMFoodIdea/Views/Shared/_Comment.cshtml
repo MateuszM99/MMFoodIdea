@@ -1,9 +1,10 @@
 ﻿@model List<MMFI_Entites.Models.Comment>
 
 
+
 @if (Model != null && Model.Count > 0)
 {
-    @foreach (var comment in Model)
+    @foreach (var comment in Model.OrderByDescending(d => d.Date))
     {
         <div class="comment-container">
             <div class="c-user-image">

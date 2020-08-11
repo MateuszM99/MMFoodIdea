@@ -61,6 +61,17 @@ function addComment(){
 
 }
 
-function commentAdd(){
-    $("comments").load("/Recipes/LeaveComment")
+function commentAdd() {
+
+    var text = $("#text").val();
+
+    var id = $("#recipeId").val();
+
+    var count = document.getElementById("count").textContent;
+
+    count++;
+
+    document.getElementById("count").textContent = count;
+
+    $("#comments").load("/Recipes/LeaveComment", { id: id, text: text });
 }

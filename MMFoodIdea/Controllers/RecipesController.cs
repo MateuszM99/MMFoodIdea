@@ -118,12 +118,15 @@ namespace MMFoodIdea.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> LeaveComment(Comment comment)
+        public async Task<IActionResult> LeaveComment(int id,string text)
         {
             
 
             if (ModelState.IsValid)
-            {               
+            {
+                Comment comment = new Comment();
+                comment.RecipeId = id;
+                comment.Text = text;
                 comment.UserName = User.Identity.Name;
                 var sender = await _userManager.GetUserAsync(User);
                 comment.UserId = sender.Id;
