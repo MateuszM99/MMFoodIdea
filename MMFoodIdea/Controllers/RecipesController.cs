@@ -111,7 +111,11 @@ namespace MMFoodIdea.Controllers
             {
                 comment.Likes = _appDb.CommentLikes.Where(c => c.CommentId == comment.CommentID && c.isLike == true).ToList().Count;
                 comment.Dislikes = _appDb.CommentLikes.Where(c => c.CommentId == comment.CommentID && c.isDislike == true).ToList().Count;
+                ViewBag.Liked = _appDb.CommentLikes.Where(c => c.CommentId == comment.CommentID && c.isLike == true && c.UserId == _userManager.GetUserId(User)).Any();
+                ViewBag.Disliked = _appDb.CommentLikes.Where(c => c.CommentId == comment.CommentID && c.isDislike == true && c.UserId == _userManager.GetUserId(User)).Any();
             }
+
+            
 
             return View("RecipePage",recipeVM);
         }

@@ -35,6 +35,7 @@
 
   <ItemGroup>
     <Folder Include="Hubs\" />
+    <Folder Include="Views\Nowy folder\" />
     <Folder Include="wwwroot\images\Recipes\" />
     <Folder Include="wwwroot\images\Users\" />
     <Folder Include="wwwroot\images\Users\90e7dafc-d05d-433b-b78a-f44be1f4242b\" />

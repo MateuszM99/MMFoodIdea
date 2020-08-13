@@ -17,9 +17,9 @@
         <script src="~/js/comments.js"></script>    
     </head>
 
-    <body onload="currentSlide(1)">
+    <body onload="currentSlide(1)">     
 
-        <div class="container">
+        <div class="container">          
             <div class="recipe-container">
                 <div class="button">
                     <button class="like-button">Like</button>
@@ -99,24 +99,24 @@
                     <img src="https://image.shutterstock.com/image-vector/vector-simple-male-profile-icon-260nw-1388357696.jpg">
                     <div class="add-title">
                         <h4>Add comment</h4>
-                    </div>                  
-                        <div class="comment-text">
-                            <input type="hidden" name="RecipeId" id="recipeId" value="@Model.RecipeId" />
-                            <input name="Text" id="text" type="text">
-                        </div>
-                        <div class="comment-submit">
-                            <button type="submit" id="submitButton" onclick="commentAdd()">Submit</button>
-                            <button>Cancel</button>
-                        </div>                   
+                    </div>
+                    <div class="comment-text">
+                        <input type="hidden" name="RecipeId" id="recipeId" value="@Model.RecipeId" />
+                        <input name="Text" id="text" type="text">
+                    </div>
+                    <div class="comment-submit">
+                        <button type="submit" id="submitButton" onclick="commentAdd()">Submit</button>
+                        <button>Cancel</button>
+                    </div>
                 </div>
             </div>
 
             <div id="comments">
 
-                <partial name="_Comment"model="Model.Comments"/>
-              
-            </div>            
-        
+                <partial name="_Comment" model="Model.Comments" />
+
+            </div>
+
         </div>
            
 

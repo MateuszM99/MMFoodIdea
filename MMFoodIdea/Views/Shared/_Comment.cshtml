@@ -17,16 +17,30 @@
                     <p>@comment.Text</p>
                 </div>
                 <div class="comment-likes">
-                    <form asp-action="OnLikeClick" method="post" data-ajax-success="like" data-ajax="true" data-ajax-method="POST" data-ajax-failure="alert('Fail')">
+                    <form asp-action="OnLikeClick" method="post" data-ajax-success="like(@comment.CommentID)" data-ajax="true" data-ajax-method="POST" data-ajax-failure="alert('Fail')">
                         <input type="hidden" name="CommentID" value="@comment.CommentID" />
-                        <button type="submit"><img src="https://img.icons8.com/windows/32/000000/facebook-like.png" /></button>
+                        @if (ViewBag.Liked == null)
+                        {
+                            <button id="like-button-@comment.CommentID" type="submit"><img src="https://img.icons8.com/windows/32/000000/facebook-like.png" /></button>
+                        }
+                        else
+                        {
+                            <button id="like-pressed-@comment.CommentID" type="submit"><img src="https://img.icons8.com/windows/32/000000/facebook-like.png" /></button>
+                        }
                     </form>
-                    <p id="likes">@comment.Likes </p>
-                    <form asp-action="OnDislikeClick" asp-controller="Recipes">
+                    <p id="likes-@comment.CommentID">@comment.Likes </p>
+                    <form asp-action="OnDislikeClick" asp-controller="Recipes" method="post" data-ajax-success="dislike(@comment.CommentID)" data-ajax="true" data-ajax-method="POST" data-ajax-failure="alert('Fail')">
                         <input type="hidden" name="CommentID" value="@comment.CommentID" />
-                        <button type="submit"><img src="https://img.icons8.com/windows/32/000000/thumbs-down.png" /></button>
+                        @if (ViewBag.Disliked == null)
+                        {
+                            <button id="dislike-button-@comment.CommentID" type="submit"><img src="https://img.icons8.com/windows/32/000000/thumbs-down.png" /></button>
+                        }
+                        else
+                        {
+                            <button id="dislike-pressed-@comment.CommentID" type="submit"><img src="https://img.icons8.com/windows/32/000000/thumbs-down.png" /></button>
+                        }
                     </form>
-                    <p>@comment.Dislikes </p>
+                    <p id="dislikes-@comment.CommentID">@comment.Dislikes </p>
                 </div>
             </div>
         </div>
