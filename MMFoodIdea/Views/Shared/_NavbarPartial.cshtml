@@ -30,7 +30,7 @@
             @if (SignInManager.IsSignedIn(User))
             {
                 <li class="items"><img class="move1" src="https://www.elitesingles.com/sites/www.elitesingles.com/files/styles/elite_rectangle_article_arrow_left_frame/public/2b_en_ta_teaser_sp1.png"></li>
-                <li class="items"><a class="move1" asp-action="Users" asp-controller="Recipes">Profile</a></li>
+                <li class="items"><a class="move1" asp-action="GetUserProfile" asp-controller="Users">Profile</a></li>
                 <li class="items"><a class="move2" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">Logout</a></li>
             }
             else

@@ -6,17 +6,20 @@
 
 body{    
     background: #e9e9e9;
-    font-family: "poppins","sans serif";
-    margin : 0px 450px 0px 450px;    
+    font-family: "poppins","sans serif";    
 }
 
+.container {
+    display: flex;
+    justify-content: center;
+}
 
 .upper-side{
     background-image: url("https://static.toiimg.com/photo/72023714.cms");
     color: white;
     display: flex;
     position: relative;
-    width: 85%;
+    width: 50%;
     height: 350px;
 }
 
@@ -95,7 +98,7 @@ body{
     height: 700px;
     position: absolute;
     top: 250px;
-    left: 500px;
+    left: 575px;
     border-radius: 8px;
     border: 2px solid white;
 }
@@ -190,4 +193,99 @@ nav .start-home,a:nth-child(2):hover~.nav-animation {
     border-radius: 5%;
     float : left;
     bottom:25px;
+}
+
+.pop-up {
+    background: rgba(0, 0, 0, .6);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+
+.pop-up {
+    background: rgba(0, 0, 0, .6);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+
+.pop-up-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: white;
+    width: 30%;
+    height: 45%;
+    border-radius: 8px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, .3);
+    align-items: center;
+}
+
+.pop-up-container h2 {
+     padding-top: 15px;
+     padding-bottom: 25px;
+     color: #cccccc;
+ }
+
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: white;
+    border-style: none;
+    cursor: pointer;
+}
+
+.image-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #cccccc;
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    z-index: 1;
+}
+
+.preview-profile-image {
+    display: none;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.image-form {
+    padding-top: 60px;
+}
+
+.image-form form {
+      display: flex;
+      flex-direction: column;
+}
+
+.image-form form input {
+    padding-bottom: 40px;
+}
+
+.image-form form button {
+     padding: 10px;
+     width: 100%;
+     height: 20%;
 }

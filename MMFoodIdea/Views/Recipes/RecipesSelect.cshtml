@@ -34,12 +34,12 @@
                             <ion-icon name="star"></ion-icon>
                             <span>(1837)</span>
                         </div>
-                        <div class="recipe-info">                
-                            @Html.ActionLink(@recipe.RecipeName,
-                            "GetRecipe",  // <-- ActionMethod.
-                            "Recipes",   // <-- Controller Name
-                            new { id = recipe.RecipeId }, // <-- Route arguments.
-                            null)
+                        <div class="recipe-info">
+                                @Html.ActionLink(@recipe.RecipeName,
+                               "GetRecipe",  // <-- ActionMethod.
+                               "Recipes",   // <-- Controller Name
+                               new { id = recipe.RecipeId }, // <-- Route arguments.
+                               null)
                             <h6>@recipe.RecipeCategory</h6>
                             <h6>@recipe.RecipePortions</h6>
                             <h6>@recipe.RecipeTime</h6>

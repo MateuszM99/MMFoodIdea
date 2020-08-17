@@ -4,14 +4,16 @@ using MMFoodIdea.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MMFI_Data.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200813150810_reacted")]
+    partial class reacted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,6 +104,9 @@ namespace MMFI_Data.Migrations.ApplicationDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
@@ -112,6 +117,8 @@ namespace MMFI_Data.Migrations.ApplicationDb
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ImageId");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("RecipeId");
 
@@ -393,11 +400,6 @@ namespace MMFI_Data.Migrations.ApplicationDb
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<int?>("ProfileImageImageId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("ProfileImageImageId");
-
                     b.HasDiscriminator().HasValue("AppUser");
                 });
 
@@ -432,6 +434,10 @@ namespace MMFI_Data.Migrations.ApplicationDb
 
             modelBuilder.Entity("MMFI_Entites.Models.Image", b =>
                 {
+                    b.HasOne("MMFI_Entites.Models.AppUser", null)
+                        .WithMany("Images")
+                        .HasForeignKey("AppUserId");
+
                     b.HasOne("MMFI_Entites.Models.Recipe", null)
                         .WithMany("Images")
                         .HasForeignKey("RecipeId")
@@ -510,13 +516,6 @@ namespace MMFI_Data.Migrations.ApplicationDb
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("MMFI_Entites.Models.AppUser", b =>
-                {
-                    b.HasOne("MMFI_Entites.Models.Image", "ProfileImage")
-                        .WithMany()
-                        .HasForeignKey("ProfileImageImageId");
                 });
 #pragma warning restore 612, 618
         }

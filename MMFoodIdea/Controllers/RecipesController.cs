@@ -37,7 +37,7 @@ namespace MMFoodIdea.Controllers
         {
             RecipesMainVM mainVM = new RecipesMainVM();
 
-            mainVM.Recipes = _appDb.Recipes.ToList();
+            mainVM.Recipes = _appDb.Recipes.Where(r => r.RecipeName != null).ToList();
 
             return View("RecipesSelect",mainVM);
         }
@@ -111,8 +111,10 @@ namespace MMFoodIdea.Controllers
             {
                 comment.Likes = _appDb.CommentLikes.Where(c => c.CommentId == comment.CommentID && c.isLike == true).ToList().Count;
                 comment.Dislikes = _appDb.CommentLikes.Where(c => c.CommentId == comment.CommentID && c.isDislike == true).ToList().Count;
-                ViewBag.Liked = _appDb.CommentLikes.Where(c => c.CommentId == comment.CommentID && c.isLike == true && c.UserId == _userManager.GetUserId(User)).Any();
-                ViewBag.Disliked = _appDb.CommentLikes.Where(c => c.CommentId == comment.CommentID && c.isDislike == true && c.UserId == _userManager.GetUserId(User)).Any();
+                if (_appDb.CommentLikes.Where(c => c.CommentId == comment.CommentID && c.isLike == true && c.UserId == _userManager.GetUserId(User)).Any() == true)
+                    comment.Reacted = "like-pressed";
+                if (_appDb.CommentLikes.Where(c => c.CommentId == comment.CommentID && c.isDislike == true && c.UserId == _userManager.GetUserId(User)).Any() == true)
+                    comment.Reacted = "dislike-pressed";
             }
 
             
@@ -174,7 +176,8 @@ namespace MMFoodIdea.Controllers
             return View("Error");
         }
 
-       [HttpPost]
+      
+       [Authorize]
         public async Task<IActionResult> OnLikeClick(Comment comment)
         {
             if (ModelState.IsValid)

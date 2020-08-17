@@ -19,7 +19,7 @@
                 <div class="comment-likes">
                     <form asp-action="OnLikeClick" method="post" data-ajax-success="like(@comment.CommentID)" data-ajax="true" data-ajax-method="POST" data-ajax-failure="alert('Fail')">
                         <input type="hidden" name="CommentID" value="@comment.CommentID" />
-                        @if (ViewBag.Liked == null)
+                        @if (comment.Reacted != "like-pressed")
                         {
                             <button id="like-button-@comment.CommentID" type="submit"><img src="https://img.icons8.com/windows/32/000000/facebook-like.png" /></button>
                         }
@@ -31,7 +31,7 @@
                     <p id="likes-@comment.CommentID">@comment.Likes </p>
                     <form asp-action="OnDislikeClick" asp-controller="Recipes" method="post" data-ajax-success="dislike(@comment.CommentID)" data-ajax="true" data-ajax-method="POST" data-ajax-failure="alert('Fail')">
                         <input type="hidden" name="CommentID" value="@comment.CommentID" />
-                        @if (ViewBag.Disliked == null)
+                        @if (comment.Reacted != "dislike-pressed")
                         {
                             <button id="dislike-button-@comment.CommentID" type="submit"><img src="https://img.icons8.com/windows/32/000000/thumbs-down.png" /></button>
                         }

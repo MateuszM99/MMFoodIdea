@@ -19,6 +19,7 @@ namespace MMFI_Entites.Models
         public string Text { get; set; }
         public DateTime Date { get; set; }
         public virtual ICollection<CommentLike> Reactions { get; set; }
+        public string Reacted { get; set; }
         public int Likes { get; set; }
         public int Dislikes { get; set; }
         public string UserId { get; set; }

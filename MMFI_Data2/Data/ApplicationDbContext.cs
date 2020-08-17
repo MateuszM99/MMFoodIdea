@@ -52,7 +52,7 @@ namespace MMFoodIdea.Data
                 .HasKey(c => new { c.CommentId,c.UserId} );
 
             builder.Entity<AppUser>()
-                .HasMany<Image>(x => x.Images);
+                .HasOne<Image>(x => x.ProfileImage);
 
             builder.Entity<RecipeIngridients>()
                  .HasKey(k => new { k.RecipeId, k.IngridientId });

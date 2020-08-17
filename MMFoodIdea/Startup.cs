@@ -56,6 +56,10 @@ namespace MMFoodIdea
 
             services.AddScoped<ICommentServices, CommentServices>();
           
+            services.AddScoped<IUploadServices,UpoladServices>();
+
+            services.AddScoped<IUserServices, UserServices>();
+
 
         }
 

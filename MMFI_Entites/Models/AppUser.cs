@@ -12,9 +12,12 @@ namespace MMFI_Entites.Models
         {
             Recipes = new List<Recipe>();
             Comments = new List<Comment>();
-            Images = new List<Image>();
+            ProfileImage = new Image();
+            ProfileImage.ImagePath = "~/images/Default/default-image.png";
+
+
         }
-        public virtual ICollection<Image> Images { get; set; }
+        public virtual Image ProfileImage { get; set; }
         public virtual ICollection<Recipe> Recipes { get; set; }        
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Follow> Followers { get; set; }
