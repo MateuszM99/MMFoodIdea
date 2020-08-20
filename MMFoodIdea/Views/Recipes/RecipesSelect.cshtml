@@ -1,56 +1,59 @@
 ﻿@model MMFI_Entites.ViewModels.RecipesMainVM
-
+@using Microsoft.AspNetCore.Identity
+@using MMFI_Entites.Models
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
 
 @{
     Layout = null;
 }
 
-    <head>
-        <link rel="stylesheet" href="~/css/style.css">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
-        <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
-        <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
-    </head>
-    
+<head>
+    <link rel="stylesheet" href="~/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+</head>
 
-    <body>
 
-        <partial name="_NavbarPartial" />
+<body>
 
-        @if (Model.Recipes != null && Model.Recipes.Count > 0)
-        {
-            @foreach (var recipe in Model.Recipes)
+    <nav class="navbar">
+        <div class="mylogo">
+            <h2>MMFoodIdea</h2>
+        </div>
+        <div class="search-input">
+            <input type="text" id="recipeSearch" ><img src="https://img.icons8.com/fluent-systems-filled/32/000000/search.png" onclick="search()" />
+        </div>
+        <ul class="nav-links">
+            <li class="items"><a onclick="latest()"><i class="far fa-clock"></i>Latest</a></li>
+            <li class="items"><a onclick="popular()"><i class="far fa-star"></i>Popular</a></li>
+            <li class="items"><a onclick="liked()"><i class="far fa-heart"></i>Liked</a></li>
+            @if (SignInManager.IsSignedIn(User))
             {
-                <div class="recipe-container">
-                    <div class="recipe">
-                        <div class="img-space">
-                            <img src="https://www.foodiesfeed.com/wp-content/uploads/2019/06/top-view-for-box-of-2-burgers-home-made.jpg">
-                        </div>
-                        <div class="rating">
-                            <ion-icon name="star"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>(1837)</span>
-                        </div>
-                        <div class="recipe-info">
-                                @Html.ActionLink(@recipe.RecipeName,
-                               "GetRecipe",  // <-- ActionMethod.
-                               "Recipes",   // <-- Controller Name
-                               new { id = recipe.RecipeId }, // <-- Route arguments.
-                               null)
-                            <h6>@recipe.RecipeCategory</h6>
-                            <h6>@recipe.RecipePortions</h6>
-                            <h6>@recipe.RecipeTime</h6>
-                        </div>
-                    </div>
-                </div>
+                <li class="items"><a asp-action="GetUserProfile" asp-controller="Users"><i class="fas fa-user-circle"></i>Profile</a></li>
+                <li class="items"><a  asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
             }
-        }
-        <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+            else
+            {
+                <li class="items">
+                    <a asp-area="Identity" asp-page="/Account/Login">Login</a>
+                </li>
+                <li class="items">
+                    <a asp-area="Identity" asp-page="/Account/Register">Register</a>
+                </li>
+            }
+        </ul>
+    </nav>
 
 
+    <div id="recipes">
+        <partial name="_LatestPartial" model="@Model" />
+    </div>
 
-    </body>
+    <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery-unobtrusive-ajax.min.js"></script>
+    <script src="~/js/mainNav.js"></script>
+</body>
 

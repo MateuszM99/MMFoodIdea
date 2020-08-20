@@ -9,5 +9,7 @@ namespace MMFI_Entites.Models
     {
         [Key]
         public int FollowId { get; set; }
+
+
     }
 }

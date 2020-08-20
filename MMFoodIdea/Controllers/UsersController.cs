@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -75,6 +76,60 @@ namespace MMFoodIdea.Controllers
 
             return View("UsersProfile",profileVM);
         }
+
+        public async Task<IActionResult> GetOUserProfile(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if( user == await _userManager.GetUserAsync(User))
+            {
+                return RedirectToAction("GetUserProfile");
+            }
+
+
+            var profileVM = new UserVM();
+
+            profileVM.ProfileImage = _userServices.GetUserProfileImage(user.Id);
+
+            if(profileVM.ProfileImage == null)
+            {
+                profileVM.ProfileImage = new MMFI_Entites.Models.Image();
+                profileVM.ProfileImage.ImagePath = "/images/Default/default-image.png";
+                profileVM.ProfileImage.UserId = user.Id;
+            }
+            
+            profileVM.Recipes = _userServices.GetUsersRecipes(user.Id);
+
+            profileVM.Followers = _userServices.GetUsersFollowers(user.Id);
+
+            profileVM.Rating = _userServices.GetUserRating(user.Id);
+
+            profileVM.UserName = user.UserName;
+
+            profileVM.Description = "hello";
+
+            return View("OUserProfile", profileVM);
+        }
+
+
+        [Authorize]
+        public async Task<IActionResult> LikeRecipe(int recipeId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            RecipeLike recipeLike = new RecipeLike();
+
+            recipeLike.UserId = user.Id;
+
+            recipeLike.RecipeId = recipeId;
+
+            await _appDb.AddAsync(recipeLike);
+
+            await _appDb.SaveChangesAsync();
+
+            return Ok();
+        }
+
 
 
     }

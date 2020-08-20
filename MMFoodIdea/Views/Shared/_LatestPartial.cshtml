@@ -1,0 +1,44 @@
+﻿@model MMFI_Entites.ViewModels.RecipesMainVM
+
+
+
+
+<body>
+    @if (Model.Recipes != null && Model.Recipes.Count > 0)
+    {
+        @foreach (var recipe in Model.Recipes)
+        {
+            <div class="recipe-container">
+                <div class="recipe">
+                    <div class="img-space">
+                        <img src="https://www.foodiesfeed.com/wp-content/uploads/2019/06/top-view-for-box-of-2-burgers-home-made.jpg">
+                    </div>
+                    <div class="rating">
+                        <ion-icon name="star"></ion-icon>
+                        <ion-icon name="star"></ion-icon>
+                        <ion-icon name="star"></ion-icon>
+                        <ion-icon name="star"></ion-icon>
+                        <ion-icon name="star"></ion-icon>
+                        <span>(1837)</span>
+                    </div>
+                    <div class="recipe-info">
+                        @Html.ActionLink(@recipe.RecipeName,
+                       "GetRecipe",  // <-- ActionMethod.
+                       "Recipes",   // <-- Controller Name
+                       new { id = recipe.RecipeId }, // <-- Route arguments.
+                       null)
+                        <h6>@recipe.RecipeCategory</h6>
+                        <h6>@recipe.RecipePortions</h6>
+                        <h6>@recipe.RecipeTime</h6>
+                        @Html.ActionLink(@recipe.Sender.UserName,
+                       "GetOUserProfile",  // <-- ActionMethod.
+                       "Users",   // <-- Controller Name
+                       new { userId = recipe.Sender.Id }, // <-- Route arguments.
+                       null)
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    
+</body>

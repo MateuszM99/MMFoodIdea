@@ -22,7 +22,10 @@
         <div class="container">          
             <div class="recipe-container">
                 <div class="button">
-                    <button class="like-button">Like</button>
+                    <form asp-controller="Users" asp-action="LikeRecipe" method="post" data-ajax-success="" data-ajax="true" data-ajax-method="POST" data-ajax-failure="alert('Fail')">
+                        <input type="hidden" name="recipeId" value="@Model.RecipeId" />
+                        <button class="like-button" type="submit">Like</button>
+                    </form>
                 </div>
                 <div class="recipe-title">
                     <h1>Recipe Title</h1>

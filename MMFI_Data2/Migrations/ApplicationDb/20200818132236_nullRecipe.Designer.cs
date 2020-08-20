@@ -4,14 +4,16 @@ using MMFoodIdea.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MMFI_Data.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200818132236_nullRecipe")]
+    partial class nullRecipe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,9 +142,6 @@ namespace MMFI_Data.Migrations.ApplicationDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Likes")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("PostedOn")
                         .HasColumnType("datetime2");
 
@@ -184,29 +183,6 @@ namespace MMFI_Data.Migrations.ApplicationDb
                     b.HasIndex("IngridientId");
 
                     b.ToTable("RecipeIngridients");
-                });
-
-            modelBuilder.Entity("MMFI_Entites.Models.RecipeLike", b =>
-                {
-                    b.Property<int>("RecipeLikeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RecipeLikeId");
-
-                    b.HasIndex("AppUserId");
-
-                    b.ToTable("RecipeLikes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -483,13 +459,6 @@ namespace MMFI_Data.Migrations.ApplicationDb
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("MMFI_Entites.Models.RecipeLike", b =>
-                {
-                    b.HasOne("MMFI_Entites.Models.AppUser", null)
-                        .WithMany("LikedRecipes")
-                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

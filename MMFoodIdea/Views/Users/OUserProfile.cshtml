@@ -1,0 +1,79 @@
+﻿@model MMFI_Entites.ViewModels.UserVM
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="~/css/usrstyl2.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+</head>
+<body>
+    <div class="container">
+
+        <div class="upper-side">
+            <div class="profile-container">
+                <a class="home-link" asp-controller="Recipes" asp-action="Select"><img src="C:\Users\HP\Downloads\house-32.png" /></a>
+                <div class="profile-image">
+                    <img src=@Model.ProfileImage.ImagePath>
+                </div>
+                <div class="user-info">
+                    <p><h3>@Model.UserName</h3></p>
+                    <div class="follow-button">
+                        <button>Follow</button>
+                    </div>
+                    <p>@Model.Description</p>
+                    <div class="followers">
+                        <a>76 Obserwujących</a>
+                        <a>24 Obserwowani</a>
+                    </div>
+                    <div class="rating">
+                        <a>Rate : </a>
+                        <a>@Model.Rating</a>
+                    </div>
+                </div>
+                <div class="my-cs">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="recipe-container">
+            <nav>
+
+                <a><i class="fas fa-book-open"></i>Recipes</a>
+                <a><i class="fas fa-heart"></i>Liked</a>
+
+                <div class="nav-animation start-home"></div>
+            </nav>
+
+            <div class="recipe">
+                <img src="https://www.expatica.com/app/uploads/sites/5/2020/03/Boeuf-bourguignon-1920x1080.jpg">
+                <a><h4>Recipe Title</h4></a>
+                <div class="clock-portions">
+                    <p><i class="far fa-clock"></i>2 Hours</p>
+                    <p><i class="fas fa-utensils"></i>2 Portions</p>
+                </div>
+                <p></p>
+            </div>
+            <div class="recipe">
+                <img src="https://www.expatica.com/app/uploads/sites/5/2020/03/Boeuf-bourguignon-1920x1080.jpg">
+                <a><h4>Recipe Title</h4></a>
+                <div class="clock-portions">
+                    <p><i class="far fa-clock"></i>2 Hours</p>
+                    <p><i class="fas fa-utensils"></i>2 Portions</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/user-scripts.js"></script>
+
+</body>
+</html>

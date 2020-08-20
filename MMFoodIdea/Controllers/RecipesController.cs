@@ -33,14 +33,99 @@ namespace MMFoodIdea.Controllers
         }
 
         [HttpGet]
-        public IActionResult Select()
+        public async Task<IActionResult> Select()
         {
             RecipesMainVM mainVM = new RecipesMainVM();
 
             mainVM.Recipes = _appDb.Recipes.Where(r => r.RecipeName != null).ToList();
 
+            foreach(var recipe in mainVM.Recipes)
+            {
+                recipe.Sender = await _userManager.FindByIdAsync(recipe.UserId);
+            }
+
             return View("RecipesSelect",mainVM);
         }
+
+        public async Task<IActionResult> SearchRecipe(string recipeName)
+        {
+            RecipesMainVM mainVM = new RecipesMainVM();
+
+            List<Recipe> recipes;
+
+            if (recipeName == null)
+            {
+                recipes = _appDb.Recipes.Where(r=> r.RecipeName != null).ToList();
+            }
+            else
+            {
+                recipes = _appDb.Recipes.Where(r => r.RecipeName.ToLower().Contains(recipeName.ToLower())).ToList();
+            }
+
+            mainVM.Recipes = recipes;
+
+            foreach (var recipe in mainVM.Recipes)
+            {
+                recipe.Sender = await _userManager.FindByIdAsync(recipe.UserId);
+            }
+
+            return PartialView("_LatestPartial", mainVM);
+        }
+
+        public async Task<IActionResult> GetLatest()
+        {
+            RecipesMainVM mainVM = new RecipesMainVM();
+
+            var latestRecipes = _appDb.Recipes.OrderBy(r => r.PostedOn).Where(r => r.PostedOn > DateTime.Now.AddDays(-50)).ToList();
+
+            mainVM.Recipes = latestRecipes;
+
+            foreach (var recipe in mainVM.Recipes)
+            {
+                recipe.Sender = await _userManager.FindByIdAsync(recipe.UserId);
+            }
+
+            return PartialView("_LatestPartial",mainVM);
+        }
+
+        public async Task<IActionResult> GetPopular()
+        {
+            RecipesMainVM mainVM = new RecipesMainVM();
+
+            var popularRecipes = _appDb.Recipes.OrderByDescending(r => r.Likes).Where(r => r.Likes > 3).ToList();
+
+            mainVM.Recipes = popularRecipes;
+
+            foreach (var recipe in mainVM.Recipes)
+            {
+                recipe.Sender = await _userManager.FindByIdAsync(recipe.UserId);
+            }
+
+            return PartialView("_LatestPartial",mainVM);
+        }
+
+        public async Task<IActionResult> GetLiked()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            RecipesMainVM mainVM = new RecipesMainVM();
+
+            var recipeLikes = _appDb.RecipeLikes.Where(r => r.UserId.Equals(user.Id));
+
+            var Ids = from rl in recipeLikes select rl.RecipeId;
+
+            var likedRecipes = _appDb.Recipes.Where(r => Ids.Contains(r.RecipeId)).ToList();
+
+            mainVM.Recipes = likedRecipes;
+
+            foreach (var recipe in mainVM.Recipes)
+            {
+                recipe.Sender = await _userManager.FindByIdAsync(recipe.UserId);
+            }
+
+            return PartialView("_LatestPartial",mainVM);
+        }
+
 
         [Authorize]
         [HttpGet]

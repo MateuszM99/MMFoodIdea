@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,7 +29,7 @@ namespace MMFI_Services
         {
             string extension = Path.GetExtension(imageFile.FileName);
 
-            string path = String.Format("wwwroot/images/Users/{0}", appUser.Id);
+            string path = String.Format("/images/Users/{0}", appUser.Id);
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
@@ -66,6 +67,10 @@ namespace MMFI_Services
                         "Unknown file extension " + extension);
             }
 
+            var userImgs = _appDb.Images.Where(i => i.UserId == appUser.Id).ToList();
+
+            _appDb.Images.RemoveRange(userImgs);
+
             MMFI_Entites.Models.Image dbImage = new MMFI_Entites.Models.Image();
 
             dbImage.ImagePath = path + "/" + imageFile.FileName;
@@ -82,7 +87,7 @@ namespace MMFI_Services
         {
             string extension = Path.GetExtension(imageFile.FileName);
 
-            string path = String.Format("wwwroot/images/Users/{0}", appUser.Id);
+            string path = String.Format("/images/Recipes/{0}/{1}", appUser.Id,recipeId);
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
