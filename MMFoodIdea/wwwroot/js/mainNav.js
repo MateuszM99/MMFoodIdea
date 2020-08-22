@@ -1,5 +1,4 @@
 function latest() {
-    alert('elo');
     $("#recipes").load("/Recipes/GetLatest");
 }
 

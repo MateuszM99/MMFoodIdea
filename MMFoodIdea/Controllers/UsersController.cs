@@ -66,6 +66,8 @@ namespace MMFoodIdea.Controllers
             
             profileVM.Recipes = _userServices.GetUsersRecipes(user.Id);
 
+            profileVM.LikedRecipes = _userServices.GetUserLikedRecipes(user.Id);
+
             profileVM.Followers = _userServices.GetUsersFollowers(user.Id);
 
             profileVM.Rating = _userServices.GetUserRating(user.Id);

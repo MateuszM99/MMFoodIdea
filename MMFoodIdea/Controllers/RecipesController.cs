@@ -110,7 +110,7 @@ namespace MMFoodIdea.Controllers
 
             RecipesMainVM mainVM = new RecipesMainVM();
 
-            var recipeLikes = _appDb.RecipeLikes.Where(r => r.UserId.Equals(user.Id));
+            var recipeLikes = _appDb.RecipeLikes.Where(r => r.UserId == user.Id);
 
             var Ids = from rl in recipeLikes select rl.RecipeId;
 

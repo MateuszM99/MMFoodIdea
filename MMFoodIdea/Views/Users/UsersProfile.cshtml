@@ -23,8 +23,8 @@
                 <a class="home-link" asp-controller="Recipes" asp-action="Select"><img src="~/images/ViewImages/house-32.png" /></a>
                 <div class="profile-image">
                     <img src=@Model.ProfileImage.ImagePath>
-                    <a class="btn-lg"><img src="~/images/ViewImages/chef.png"></a>
-                    <a class="move" onclick="addProfilePic()"><img src="~/images/ViewImages/profile.png"></a>
+                    <a asp-action="CreateRecipe" asp-controller="Recipes"><img src="~/images/ViewImages/chef.png"></a>
+                    <a onclick="addProfilePic()"><img src="~/images/ViewImages/profile.png"></a>
                 </div>
                 <div class="user-info">
                     <p><h3>@Model.UserName</h3></p>
@@ -50,31 +50,51 @@
 
         <div class="recipe-container">
             <nav>
-
-                <a><i class="fas fa-book-open"></i>Recipes</a>
-                <a><i class="fas fa-heart"></i>Liked</a>
-
-                <div class="nav-animation start-home"></div>
+                <ul>
+                    <li onclick="hideLiked()"><i class="fas fa-book-open"></i>Recipes</li>
+                    <li onclick="hideRecipes()"><i class="fas fa-heart"></i>Liked</li>
+                </ul>
             </nav>
 
-            <div class="recipe">
-                <img src="https://www.expatica.com/app/uploads/sites/5/2020/03/Boeuf-bourguignon-1920x1080.jpg">
-                <a><h4>Recipe Title</h4></a>
+            <div id="recipes" class="recipes">             
+                @foreach (var recipe in Model.Recipes)
+                {
+                <div class="recipe">
+                    <img src="https://www.expatica.com/app/uploads/sites/5/2020/03/Boeuf-bourguignon-1920x1080.jpg">
+                    <h4>
+                        @Html.ActionLink(@recipe.RecipeName,
+               "GetRecipe",  // <-- ActionMethod.
+               "Recipes",   // <-- Controller Name
+               new { id = recipe.RecipeId }, // <-- Route arguments.
+               null)
+                </h4>
                 <div class="clock-portions">
-                    <p><i class="far fa-clock"></i>2 Hours</p>
-                    <p><i class="fas fa-utensils"></i>2 Portions</p>
+                    <p><i class="far fa-clock"></i>@recipe.RecipeTime</p>
+                    <p><i class="fas fa-utensils"></i>@recipe.RecipePortions</p>
                 </div>
                 <p></p>
-            </div>
-            <div class="recipe">
-                <img src="https://www.expatica.com/app/uploads/sites/5/2020/03/Boeuf-bourguignon-1920x1080.jpg">
-                <a><h4>Recipe Title</h4></a>
-                <div class="clock-portions">
-                    <p><i class="far fa-clock"></i>2 Hours</p>
-                    <p><i class="fas fa-utensils"></i>2 Portions</p>
                 </div>
+                }
             </div>
 
+            <div id="liked" class="liked">
+                @foreach (var recipe in Model.LikedRecipes)
+                {
+                    <div class="recipe">
+                        <img src="https://www.expatica.com/app/uploads/sites/5/2020/03/Boeuf-bourguignon-1920x1080.jpg">
+                        <h4>@Html.ActionLink(@recipe.RecipeName,
+                       "GetRecipe",  // <-- ActionMethod.
+                       "Recipes",   // <-- Controller Name
+                       new { id = recipe.RecipeId }, // <-- Route arguments.
+                       null)</h4>                      
+                        <div class="clock-portions">
+                            <p><i class="far fa-clock"></i>@recipe.RecipeTime</p>
+                            <p><i class="fas fa-utensils"></i>@recipe.RecipePortions</p>
+                        </div>
+                        <p></p>
+                    </div>
+                }
+            </div>
 
         </div>
     </div>

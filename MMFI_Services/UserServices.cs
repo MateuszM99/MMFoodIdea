@@ -27,7 +27,9 @@ namespace MMFI_Services
 
         public List<Recipe> GetUserLikedRecipes(string UserId)
         {
-            throw new NotImplementedException();
+            var ids = _appDb.RecipeLikes.Where(r => r.UserId == UserId).Select(r => r.RecipeId);
+
+            return _appDb.Recipes.Where(r => ids.Contains(r.RecipeId)).ToList();
         }
 
         public Image GetUserProfileImage(string UserId)

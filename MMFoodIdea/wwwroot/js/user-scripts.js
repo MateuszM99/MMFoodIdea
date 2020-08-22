@@ -34,3 +34,17 @@ inputImg.addEventListener("change", function () {
         previewImage.setAttribute("src", "");
     }
 });
+
+function loadRecipes() {
+
+}
+
+function hideRecipes() {
+    document.getElementById("recipes").style.display = "none";
+    document.getElementById("liked").style.display = "block";
+}
+
+function hideLiked() {
+    document.getElementById("recipes").style.display = "block";
+    document.getElementById("liked").style.display = "none";
+}
