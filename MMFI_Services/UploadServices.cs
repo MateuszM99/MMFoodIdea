@@ -29,7 +29,7 @@ namespace MMFI_Services
         {
             string extension = Path.GetExtension(imageFile.FileName);
 
-            string path = String.Format("/images/Users/{0}", appUser.Id);
+            string path = String.Format("wwwroot/images/Users/{0}", appUser.Id);
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
@@ -73,7 +73,7 @@ namespace MMFI_Services
 
             MMFI_Entites.Models.Image dbImage = new MMFI_Entites.Models.Image();
 
-            dbImage.ImagePath = path + "/" + imageFile.FileName;
+            dbImage.ImagePath = String.Format("/images/Users/{0}", appUser.Id) + "/" + imageFile.FileName;
 
             dbImage.UserId = appUser.Id;
 
@@ -87,7 +87,9 @@ namespace MMFI_Services
         {
             string extension = Path.GetExtension(imageFile.FileName);
 
-            string path = String.Format("/images/Recipes/{0}/{1}", appUser.Id,recipeId);
+            string path = String.Format("wwwroot/images/Recipes/{0}/{1}", appUser.Id,recipeId);
+
+            var baseDirectory = Directory.GetCurrentDirectory();
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
@@ -127,7 +129,7 @@ namespace MMFI_Services
 
             MMFI_Entites.Models.Image dbImage = new MMFI_Entites.Models.Image();
 
-            dbImage.ImagePath = path + "/" + imageFile.FileName;
+            dbImage.ImagePath = String.Format("/images/Recipes/{0}/{1}", appUser.Id, recipeId) + "/" + imageFile.FileName;
 
             dbImage.UserId = appUser.Id;
 

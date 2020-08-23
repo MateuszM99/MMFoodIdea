@@ -1,5 +1,7 @@
-﻿
-@{
+﻿@model MMFI_Entites.Models.Recipe
+
+
+@{ 
     Layout = null;
 }
 
@@ -16,9 +18,9 @@
 <body>
 
     <div class="container">
-        <form asp-action="CreateRecipe" method="post">
-            <h1 class="create-recipe">Create Recipe<i class="fas fa-utensils"></i></h1>
-            <div class="box">
+        <h1 class="create-recipe">Create Recipe<i class="fas fa-utensils"></i></h1>
+        <div class="box">
+            <form asp-action="CreateRecipe" method="post" id="form" enctype="multipart/form-data">
                 <div class="recipe-title">
                     <h3>Enter recipe title :</h3>
                     <input type="text" name="RecipeName" class="title" placeholder="Enter title here">
@@ -36,26 +38,31 @@
                     <input type="text" name="RecipeCategory" class="title" placeholder="Enter category here">
                 </div>
                 <div class="add-ingridients">
-                    <h3 class="">Add Ingridient :</h3>
-                    <input type="text" class="ingridient-input" placeholder="Enter ingridient name">                   
-                    <a class="add-ingridient"></a>
+                    <h3 class="">Add Ingridient :</h3>                                   
+                    <input type="button" class="ingridient-input" id="btnAdd" value="Add ingridient" />                   
                 </div>
                 <div class="ingridients-list">
                     <h3>Ingridients :</h3>
+                    <div id="ingridientsContainer">
+                    @Html.EditorFor(model => model.Ingridients)
+                    </div>
                 </div>
                 <div class="instructions">
                     <h3>Write down the steps here :</h3>
                     <textarea name="RecipeInstructions"></textarea>
                 </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Add recipe</button>
-        </form>
+                <div>
+                    <input multiple name="images" type="file" />
+                </div>
+                <div class="add-recipe">
+                    <button type="submit">Add recipe</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-
-
-
-
-
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery-unobtrusive-ajax.min.js"></script>
+    <script src="~/js/create-recipe.js"></script>
 </body>
 </html>

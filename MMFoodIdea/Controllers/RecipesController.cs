@@ -20,11 +20,13 @@ namespace MMFoodIdea.Controllers
         private readonly ApplicationDbContext _appDb;
         private readonly ICommentServices _cServices;
         private readonly UserManager<AppUser> _userManager;
-        public RecipesController(ApplicationDbContext appDb, ICommentServices cServices, UserManager<AppUser> userManager)
+        private readonly IUploadServices _uploadServices;
+        public RecipesController(ApplicationDbContext appDb, ICommentServices cServices, UserManager<AppUser> userManager, IUploadServices uploadServices)
         {
             _userManager = userManager;
             _appDb = appDb;
             _cServices = cServices;
+            _uploadServices = uploadServices;
         }
 
         public async Task<IActionResult> Index(int? id)
@@ -144,19 +146,25 @@ namespace MMFoodIdea.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateRecipe(Recipe recipe)
+        public async Task<IActionResult> CreateRecipe([Bind("RecipeId,RecipeName,RecipeTime,RecipeCategory,RecipePortions,RecipeInstructions,Ingridients")]Recipe recipe,List<IFormFile> images)
         {
             recipe.Sender = await _userManager.GetUserAsync(User);
             recipe.UserId = recipe.Sender.Id;
             recipe.PostedOn = DateTime.Now;
-
-            var images = _appDb.Images.Where(i => i.RecipeId == recipe.RecipeId && i.UserId == recipe.UserId).ToList();
-
-            recipe.Images = images;
-
+         
             await _appDb.AddAsync(recipe);
 
             await _appDb.SaveChangesAsync();
+
+            foreach (var image in images)
+            {
+                await _uploadServices.UploadingRecipePhoto(image, recipe.Sender, recipe.RecipeId);
+            }
+
+
+            var rImages = _appDb.Images.Where(i => i.RecipeId == recipe.RecipeId && i.UserId == recipe.UserId).ToList();
+
+            recipe.Images = rImages;
 
             RecipeVM recipeVM = new RecipeVM();
 
@@ -164,12 +172,22 @@ namespace MMFoodIdea.Controllers
             recipeVM.RecipeCategory = recipe.RecipeCategory;
             recipeVM.RecipePortions = recipe.RecipePortions;
             recipeVM.RecipeTime = recipe.RecipeTime;
+            recipeVM.Ingridients = (List<Ingridient>)recipe.Ingridients;
             recipeVM.RecipeInstructions = recipe.RecipeInstructions;
             recipeVM.Sender = recipe.Sender;
             recipeVM.PostedOn = recipe.PostedOn;
             recipeVM.Images = recipe.Images;
+            recipeVM.Comments = new List<Comment>();
 
             return View("RecipePage", recipeVM);
+        }
+
+        public async Task<IActionResult> addIngridient([Bind("Ingridients")] Recipe recipe)
+        {
+            recipe.Ingridients.Add(new Ingridient());
+         
+
+            return PartialView("Ingridients", recipe);
         }
 
         [HttpGet]
@@ -187,9 +205,10 @@ namespace MMFoodIdea.Controllers
             recipeVM.RecipePortions = recipe.RecipePortions;
             recipeVM.RecipeTime = recipe.RecipeTime;
             recipeVM.RecipeInstructions = recipe.RecipeInstructions;
+            recipeVM.Ingridients = _appDb.Ingridients.Where(r => id == r.RecipeId).ToList();
             recipeVM.Sender = sender;
             recipeVM.PostedOn = recipe.PostedOn;
-            recipeVM.Images = recipe.Images;
+            recipeVM.Images = _appDb.Images.Where(i => i.RecipeId == recipe.RecipeId && i.UserId == recipe.UserId).ToList();
             recipeVM.Comments = _appDb.Comments.Where(c => c.RecipeId == id).ToList();
 
             foreach(var comment in recipeVM.Comments)

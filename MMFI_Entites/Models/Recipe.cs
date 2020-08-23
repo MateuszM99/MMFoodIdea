@@ -9,7 +9,9 @@ namespace MMFI_Entites.Models
     {
         public Recipe()
         {
+            Ingridients = new List<Ingridient>();
             Images = new List<Image>();
+            Comments = new List<Comment>();
         }
 
         [Key]
@@ -19,7 +21,7 @@ namespace MMFI_Entites.Models
         public string RecipeCategory { get; set; }
         public string RecipePortions { get; set; }
         public string RecipeInstructions { get; set; }
-        public IList<RecipeIngridients> RecipeIngridients { get; set; }
+        public ICollection<Ingridient> Ingridients { get; set; }
         public string UserId { get; set; }
         public virtual AppUser Sender { get; set; }        
         public DateTime PostedOn { get; set; }

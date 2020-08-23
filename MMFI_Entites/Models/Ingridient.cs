@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace MMFI_Entites.Models
@@ -10,6 +11,7 @@ namespace MMFI_Entites.Models
         [Key]
         public int IngridientId { get; set; }
         public string Name { get; set; }
-        public IList<RecipeIngridients> RecipeIngridients { get; set; }
+        public string Quantity { get; set; }      
+        public int RecipeId { get; set; }
     }
 }
