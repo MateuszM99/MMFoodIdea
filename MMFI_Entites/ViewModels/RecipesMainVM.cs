@@ -8,5 +8,7 @@ namespace MMFI_Entites.ViewModels
     public class RecipesMainVM
     {
        public List<Recipe> Recipes { get; set; }
+
+        public Category Category { get; set; }
     }
 }

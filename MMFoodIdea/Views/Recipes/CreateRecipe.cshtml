@@ -38,21 +38,22 @@
                     <input type="text" name="RecipeCategory" class="title" placeholder="Enter category here">
                 </div>
                 <div class="add-ingridients">
-                    <h3 class="">Add Ingridient :</h3>                                   
-                    <input type="button" class="ingridient-input" id="btnAdd" value="Add ingridient" />                   
+                    <h3 class="">Add Ingridient :</h3>
+                    <input type="button" class="ingridient-input" id="btnAdd" value="Add ingridient" />
                 </div>
                 <div class="ingridients-list">
                     <h3>Ingridients :</h3>
                     <div id="ingridientsContainer">
-                    @Html.EditorFor(model => model.Ingridients)
+                        @Html.EditorFor(model => model.Ingridients)
                     </div>
                 </div>
                 <div class="instructions">
                     <h3>Write down the steps here :</h3>
                     <textarea name="RecipeInstructions"></textarea>
-                </div>
-                <div>
-                    <input multiple name="images" type="file" />
+                </div>              
+                <div class="image-input">
+                    <input multiple name="images" type="file" id="file" accept="image/*" />
+                    <label for="file">Choose Images</label>
                 </div>
                 <div class="add-recipe">
                     <button type="submit">Add recipe</button>

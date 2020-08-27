@@ -27,8 +27,7 @@
                        "Recipes",   // <-- Controller Name
                        new { id = recipe.RecipeId }, // <-- Route arguments.
                        null)
-                        <h6>@recipe.RecipeCategory</h6>
-                        <h6>@recipe.RecipePortions</h6>
+                        <h6>@recipe.RecipeCategory</h6>                       
                         <h6>@recipe.RecipeTime</h6>
                         @Html.ActionLink(@recipe.Sender.UserName,
                        "GetOUserProfile",  // <-- ActionMethod.

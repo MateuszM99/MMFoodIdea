@@ -142,3 +142,23 @@ body {
         border-style: none;
         border-radius: 8px;
     }
+
+.image-input {
+    padding: 50px;
+}
+
+    .image-input input[type="file"] {
+        display: none;
+    }
+
+    .image-input label {
+        background-color: rgb(238, 127,0);
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+        .image-input label:hover {
+            background-color: rgb(240, 160, 69);
+        }

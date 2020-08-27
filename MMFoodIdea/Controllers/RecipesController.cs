@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MMFI_Data.Data;
 using MMFI_Entites.Models;
@@ -29,9 +30,9 @@ namespace MMFoodIdea.Controllers
             _uploadServices = uploadServices;
         }
 
-        public async Task<IActionResult> Index(int? id)
+        public IActionResult Index()
         {
-            return View();
+            return View("StartPage");
         }
 
         [HttpGet]
@@ -44,7 +45,7 @@ namespace MMFoodIdea.Controllers
             foreach(var recipe in mainVM.Recipes)
             {
                 recipe.Sender = await _userManager.FindByIdAsync(recipe.UserId);
-            }
+            }           
 
             return View("RecipesSelect",mainVM);
         }
@@ -126,14 +127,6 @@ namespace MMFoodIdea.Controllers
             }
 
             return PartialView("_LatestPartial",mainVM);
-        }
-
-
-        [Authorize]
-        [HttpGet]
-        public IActionResult Users()
-        {
-            return View("UsersProfile");
         }
 
         [Authorize]

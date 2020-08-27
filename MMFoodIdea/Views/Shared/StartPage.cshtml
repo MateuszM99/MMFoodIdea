@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using MMFI_Entites.Models
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="~/css/login-page.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <div class="profile">
+                <a asp-controller="Users" asp-action="GetUserProfile">Profile</a>
+            </div>
+            <div class="logout">
+                <a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">Logout</a>
+            </div>
+        }
+        else
+        {
+            <div class="login">
+                <a asp-area="Identity" asp-page="/Account/Login">Login</a>
+            </div>
+            <div class="register">
+                <a asp-area="Identity" asp-page="/Account/Register">Register</a>
+            </div>
+        }
+        <div class="recipes">
+            <a asp-controller="Recipes" asp-action="Select">Go to recipes</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -46,9 +46,41 @@
         </ul>
     </nav>
 
-
-    <div id="recipes">
-        <partial name="_LatestPartial" model="@Model" />
+    <div class="container">
+        <div class="filter-options">
+            <div class="ingridients-filter">
+                <h3>Ingridients</h3>
+                <a class="search-by">Search by ingridients</a>
+            </div>
+            <div class="category">
+                <h3>Category</h3>               
+                <select asp-items="Html.GetEnumSelectList<Category>()"></select>
+            </div>
+            <div class="time-filter">
+                <h3>Time</h3>
+                <input type="radio" name="time" onclick="timeFilter(0)">
+                <label>Doesn't matter</label></br>
+                <input type="radio" name="time" onclick="timeFilter(15)">
+                <label>Less than 15 minutes</label></br>
+                <input type="radio" name="time" onclick="timeFilter(30)">
+                <label>Less than 30 minutes</label></br>
+                <input type="radio" name="time" onclick="timeFilter(60)">
+                <label>Less than 1 hour</label></br>
+            </div>
+            <div class="rating-filter">
+                <h3>Rating</h3>
+                <div class="ratings">
+                    <ion-icon name="star" class="s1"></ion-icon>
+                    <ion-icon name="star" class="s2"></ion-icon>
+                    <ion-icon name="star" class="s3"></ion-icon>
+                    <ion-icon name="star" class="s4"></ion-icon>
+                    <ion-icon name="star" class="s5"></ion-icon>
+                </div>
+            </div>
+        </div>
+        <div id="recipes">
+            <partial name="_LatestPartial" model="@Model" />
+        </div>
     </div>
 
     <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
