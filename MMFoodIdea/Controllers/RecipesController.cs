@@ -12,6 +12,7 @@ using MMFI_Data.Data;
 using MMFI_Entites.Models;
 using MMFI_Entites.ViewModels;
 using MMFI_IServices;
+using MMFI_Services;
 using MMFoodIdea.Data;
 
 namespace MMFoodIdea.Controllers
@@ -22,12 +23,14 @@ namespace MMFoodIdea.Controllers
         private readonly ICommentServices _cServices;
         private readonly UserManager<AppUser> _userManager;
         private readonly IUploadServices _uploadServices;
-        public RecipesController(ApplicationDbContext appDb, ICommentServices cServices, UserManager<AppUser> userManager, IUploadServices uploadServices)
+        private readonly IRatingServices _ratingServices;
+        public RecipesController(ApplicationDbContext appDb, ICommentServices cServices, UserManager<AppUser> userManager, IUploadServices uploadServices, IRatingServices ratingServices)
         {
             _userManager = userManager;
             _appDb = appDb;
             _cServices = cServices;
             _uploadServices = uploadServices;
+            _ratingServices = ratingServices;
         }
 
         public IActionResult Index()
@@ -174,15 +177,7 @@ namespace MMFoodIdea.Controllers
 
             return View("RecipePage", recipeVM);
         }
-
-        public async Task<IActionResult> addIngridient([Bind("Ingridients")] Recipe recipe)
-        {
-            recipe.Ingridients.Add(new Ingridient());
-         
-
-            return PartialView("Ingridients", recipe);
-        }
-
+      
         [HttpGet]
         public async Task<IActionResult> GetRecipe(int id)
         {
@@ -218,6 +213,27 @@ namespace MMFoodIdea.Controllers
 
             return View("RecipePage",recipeVM);
         }
+
+
+        public async Task<IActionResult> RateRecipe(int recipeId,int rate)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+
+
+                Rating rating = new Rating();
+                rating.RecipeId = recipeId;
+                rating.UserId = user.Id;
+
+               await _ratingServices.Rate(rating, user);
+
+                return Ok();
+            }
+
+            return View("Error");
+        }
+
 
         [Authorize]
         [HttpPost]

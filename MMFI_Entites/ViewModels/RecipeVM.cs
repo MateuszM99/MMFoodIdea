@@ -11,7 +11,7 @@ namespace MMFI_Entites.ViewModels
         public int RecipeId { get; set; }
         public string RecipeName { get; set; }
         public int RecipeTime { get; set; }
-        public string RecipeCategory { get; set; }
+        public Category RecipeCategory { get; set; }
         public string RecipePortions { get; set; }
         public string RecipeInstructions { get; set; }
         public List<Ingridient> Ingridients { get; set; }

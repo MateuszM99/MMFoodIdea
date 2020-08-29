@@ -11,7 +11,13 @@
             <div class="recipe-container">
                 <div class="recipe">
                     <div class="img-space">
-                        <img src="https://www.foodiesfeed.com/wp-content/uploads/2019/06/top-view-for-box-of-2-burgers-home-made.jpg">
+                        @if (recipe.Images != null && recipe.Images.Count > 0)
+                        {
+                        <img src="@recipe.Images.ElementAt(0).ImagePath">
+                        }else
+                        {
+                            <img src="https://www.tastefullysimple.com/_/media/images/recipe-default-image.png" />
+                        }
                     </div>
                     <div class="rating">
                         <ion-icon name="star"></ion-icon>
@@ -19,7 +25,7 @@
                         <ion-icon name="star"></ion-icon>
                         <ion-icon name="star"></ion-icon>
                         <ion-icon name="star"></ion-icon>
-                        <span>(1837)</span>
+                        <span>@recipe.Likes</span>
                     </div>
                     <div class="recipe-info">
                         @Html.ActionLink(@recipe.RecipeName,
@@ -27,13 +33,13 @@
                        "Recipes",   // <-- Controller Name
                        new { id = recipe.RecipeId }, // <-- Route arguments.
                        null)
-                        <h6>@recipe.RecipeCategory</h6>                       
-                        <h6>@recipe.RecipeTime</h6>
-                        @Html.ActionLink(@recipe.Sender.UserName,
+                        <h5>@recipe.RecipeCategory</h5>                       
+                        <h5>@recipe.RecipeTime minutes</h5>
+                        <h5>@Html.ActionLink(@recipe.Sender.UserName,
                        "GetOUserProfile",  // <-- ActionMethod.
                        "Users",   // <-- Controller Name
                        new { userId = recipe.Sender.Id }, // <-- Route arguments.
-                       null)
+                       null)</h5>
                     </div>
                 </div>
             </div>

@@ -10,7 +10,10 @@ body {
     justify-content: center;
 }
 
-
+.text-danger{
+    padding-left: 10px;
+    color: red;
+}
 
 
 .container {
@@ -81,8 +84,20 @@ body {
 
 .title {
     margin-left: 25px;
-    width: 60%;
+    width: 40%;
 }
+
+.time, .portions {
+    margin-left: 25px;
+    width: 15%;
+}
+
+.category-input select {
+    margin-left: 25px;
+    width: 10%;
+    font-family: 'Poppins', sans-serif;
+}
+
 
 .add-ingridients {
     display: flex;
@@ -99,9 +114,9 @@ body {
     width: 10%;
 }
 
-    .ingridient-input:hover {
-        background-color: rgb(240, 160, 69);
-    }
+.ingridient-input:hover {
+    background-color: rgb(240, 160, 69);
+}
 
 .add-ingridient {
 }
@@ -113,16 +128,22 @@ body {
     padding-left: 50px;
 }
 
+.ings {
+    display: flex;
+    flex-direction: column;
+}
+
+
 .instructions {
     padding-top: 50px;
     padding-left: 50px;
     padding-bottom: 25px;
 }
 
-    .instructions textarea {
-        height: 400px;
-        width: 900px;
-    }
+.instructions textarea {
+    height: 400px;
+    width: 900px;
+}
 
 
 .add-recipe {
@@ -130,35 +151,46 @@ body {
     justify-content: center;
 }
 
-    .add-recipe button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 30px;
-        width: 15%;
-        background-color: rgb(238, 127,0);
-        color: white;
-        font-size: 14px;
-        border-style: none;
-        border-radius: 8px;
-    }
+.add-recipe button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 15%;
+    background-color: rgb(238, 127,0);
+    color: white;
+    font-size: 14px;
+    border-style: none;
+    border-radius: 8px;
+}
 
 .image-input {
     padding: 50px;
 }
 
-    .image-input input[type="file"] {
-        display: none;
-    }
+.file-upload_input[type="file"] {
+    display: none;
+}
 
-    .image-input label {
-        background-color: rgb(238, 127,0);
-        color: white;
-        padding: 10px;
-        border-radius: 8px;
-        cursor: pointer;
-    }
+.file-upload_button {
+    background-color: rgb(238, 127,0);
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    border-style: none;
+    font-size: 14px;
+    cursor: pointer;
+}
 
-        .image-input label:hover {
-            background-color: rgb(240, 160, 69);
-        }
+.file-upload_button:hover {
+    background-color: rgb(240, 160, 69);
+}
+
+.file-upload_label {
+    max-width: 250px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-left: 10px;
+    white-space: nowrap;
+}

@@ -26,6 +26,7 @@ namespace MMFoodIdea.Data
 
         public DbSet<RecipeLike> RecipeLikes { get; set; }
 
+        public DbSet<Rating> Ratings { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

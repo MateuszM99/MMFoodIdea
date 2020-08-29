@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MMFI_Data.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200823142743_createRecipe")]
-    partial class createRecipe
+    [Migration("20200828124913_init2")]
+    partial class init2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -133,7 +133,7 @@ namespace MMFI_Data.Migrations.ApplicationDb
                     b.Property<string>("Quantity")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RecipeId")
+                    b.Property<int>("RecipeId")
                         .HasColumnType("int");
 
                     b.HasKey("IngridientId");
@@ -156,16 +156,19 @@ namespace MMFI_Data.Migrations.ApplicationDb
                     b.Property<DateTime>("PostedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("RecipeCategory")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("RecipeCategory")
+                        .HasColumnType("int");
 
                     b.Property<string>("RecipeInstructions")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RecipeName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RecipePortions")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RecipeTime")
@@ -462,7 +465,9 @@ namespace MMFI_Data.Migrations.ApplicationDb
                 {
                     b.HasOne("MMFI_Entites.Models.Recipe", null)
                         .WithMany("Ingridients")
-                        .HasForeignKey("RecipeId");
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MMFI_Entites.Models.Recipe", b =>

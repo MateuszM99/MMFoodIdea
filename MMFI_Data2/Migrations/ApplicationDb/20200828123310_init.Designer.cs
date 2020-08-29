@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MMFI_Data.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200813150810_reacted")]
-    partial class reacted
+    [Migration("20200828123310_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -104,21 +104,16 @@ namespace MMFI_Data.Migrations.ApplicationDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RecipeId")
+                    b.Property<int?>("RecipeId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ImageId");
-
-                    b.HasIndex("AppUserId");
 
                     b.HasIndex("RecipeId");
 
@@ -135,7 +130,15 @@ namespace MMFI_Data.Migrations.ApplicationDb
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Quantity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
                     b.HasKey("IngridientId");
+
+                    b.HasIndex("RecipeId");
 
                     b.ToTable("Ingridients");
                 });
@@ -147,19 +150,25 @@ namespace MMFI_Data.Migrations.ApplicationDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Likes")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("PostedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("RecipeCategory")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("RecipeCategory")
+                        .HasColumnType("int");
 
                     b.Property<string>("RecipeInstructions")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RecipeName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RecipePortions")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RecipeTime")
@@ -175,19 +184,27 @@ namespace MMFI_Data.Migrations.ApplicationDb
                     b.ToTable("Recipes");
                 });
 
-            modelBuilder.Entity("MMFI_Entites.Models.RecipeIngridients", b =>
+            modelBuilder.Entity("MMFI_Entites.Models.RecipeLike", b =>
                 {
+                    b.Property<int>("RecipeLikeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("RecipeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("IngridientId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RecipeId", "IngridientId");
+                    b.HasKey("RecipeLikeId");
 
-                    b.HasIndex("IngridientId");
+                    b.HasIndex("AppUserId");
 
-                    b.ToTable("RecipeIngridients");
+                    b.ToTable("RecipeLikes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -400,6 +417,11 @@ namespace MMFI_Data.Migrations.ApplicationDb
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
+                    b.Property<int?>("ProfileImageImageId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("ProfileImageImageId");
+
                     b.HasDiscriminator().HasValue("AppUser");
                 });
 
@@ -434,12 +456,15 @@ namespace MMFI_Data.Migrations.ApplicationDb
 
             modelBuilder.Entity("MMFI_Entites.Models.Image", b =>
                 {
-                    b.HasOne("MMFI_Entites.Models.AppUser", null)
-                        .WithMany("Images")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("MMFI_Entites.Models.Recipe", null)
                         .WithMany("Images")
+                        .HasForeignKey("RecipeId");
+                });
+
+            modelBuilder.Entity("MMFI_Entites.Models.Ingridient", b =>
+                {
+                    b.HasOne("MMFI_Entites.Models.Recipe", null)
+                        .WithMany("Ingridients")
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -452,19 +477,11 @@ namespace MMFI_Data.Migrations.ApplicationDb
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("MMFI_Entites.Models.RecipeIngridients", b =>
+            modelBuilder.Entity("MMFI_Entites.Models.RecipeLike", b =>
                 {
-                    b.HasOne("MMFI_Entites.Models.Ingridient", "Ingridient")
-                        .WithMany("RecipeIngridients")
-                        .HasForeignKey("IngridientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MMFI_Entites.Models.Recipe", "Recipe")
-                        .WithMany("RecipeIngridients")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("MMFI_Entites.Models.AppUser", null)
+                        .WithMany("LikedRecipes")
+                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -516,6 +533,13 @@ namespace MMFI_Data.Migrations.ApplicationDb
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MMFI_Entites.Models.AppUser", b =>
+                {
+                    b.HasOne("MMFI_Entites.Models.Image", "ProfileImage")
+                        .WithMany()
+                        .HasForeignKey("ProfileImageImageId");
                 });
 #pragma warning restore 612, 618
         }

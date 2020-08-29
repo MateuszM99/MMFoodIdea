@@ -10,7 +10,11 @@ namespace MMFI_Entites.Models
     {
         [Key]
         public int IngridientId { get; set; }
+
+        [Required(ErrorMessage = "Name of ingridient is required")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Quantity of ingridient is required")]
         public string Quantity { get; set; }      
         public int RecipeId { get; set; }
     }
