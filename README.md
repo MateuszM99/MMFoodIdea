@@ -18,3 +18,4 @@ Simple and minimalistic site with recipes. Users can post their own recipes. The
 * HTML5
 * CSS
 * JavaScript ES6
+* Ajax
