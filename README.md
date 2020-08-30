@@ -7,6 +7,7 @@ Simple and minimalistic site with recipes. Users can post their own recipes. The
 * [Assumptions](#assumptions)
 * [Technologies](#technologies)
 * [Screenshots](#screenshots)
+* [Status](#status)
 
 ## Assumptions
 
@@ -19,3 +20,9 @@ Simple and minimalistic site with recipes. Users can post their own recipes. The
 * CSS
 * JavaScript ES6
 * Ajax
+
+## Screenshots
+
+## Status
+
+Abandoned - To be resumed
