@@ -22,6 +22,7 @@ Simple and minimalistic site with recipes. Users can post their own recipes. The
 * Ajax
 
 ## Screenshots
+![Alt text](https://imgur.com/A0ByEOS "Optional title")
 
 ## Status
 
