@@ -22,7 +22,7 @@ Simple and minimalistic site with recipes. Users can post their own recipes. The
 * Ajax
 
 ## Screenshots
-![Alt text](https://imgur.com/A0ByEOS "Optional title")
+<blockquote class="imgur-embed-pub" lang="en" data-id="A0ByEOS"><a href="//imgur.com/A0ByEOS"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 ## Status
 
