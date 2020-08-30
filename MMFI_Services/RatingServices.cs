@@ -35,17 +35,18 @@ namespace MMFI_Services
         public async Task Rate(Rating rating,AppUser user)
         {
 
-            var rate = _appDb.Ratings.Where(r => r.RecipeId == rating.RecipeId && r.UserId == user.Id).FirstOrDefault();
-
+            var lastRate = _appDb.Ratings.Where(r => r.RecipeId == rating.RecipeId && r.UserId == user.Id).FirstOrDefault();
+            
 
             // If is rated then remove the recent rating and add new rating
-            if (rate != null)
+            if (lastRate != null)
             {
-                _appDb.Ratings.Remove(rate);
+                
+                _appDb.Ratings.Remove(lastRate);
                 _appDb.Ratings.Add(rating);
                 await _appDb.SaveChangesAsync();
             } else
-            {
+            {               
                 _appDb.Ratings.Add(rating);
                 await _appDb.SaveChangesAsync();
             }

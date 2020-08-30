@@ -9,17 +9,12 @@
 
     <head>
         <link rel="stylesheet" href="~/css/recipe-page.css">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
-        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-        <script src="~/lib/jquery/dist/jquery-unobtrusive-ajax.min.js"></script>
-        <script src="~/js/recipe-page-scripts.js"></script>
-        <script src="~/js/likes.js?n=1"></script>     
-        <script src="~/js/comments.js"></script>    
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">               
     </head>
 
-    <body onload="currentSlide(1)">     
+    <body onload="currentSlide(1)">
 
-        <div class="container">          
+        <div class="container">
             <div class="recipe-container">
                 <div class="button">
                     <form asp-controller="Users" asp-action="LikeRecipe" method="post" data-ajax-success="" data-ajax="true" data-ajax-method="POST" data-ajax-failure="alert('Fail')">
@@ -85,6 +80,22 @@
                         @Model.RecipeInstructions
                     </p>
                 </div>
+                <div class="rate-recipe">
+                    <h3>Rate the recipe</h3>
+                    <form data-ajax="true">
+                        <select id="rate-select">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <input type="hidden" value="@Model.RecipeId" id="recipe-id" />
+                        <button id="rate-button">Rate</button>
+                    </form>
+                    <label id="rate-label"></label>
+                    <label>@Model.Rating</label>
+                </div>
                 <div class="author">
                     <a>@Model.Sender.UserName</a>
                     <p>@Model.PostedOn</p>
@@ -93,9 +104,9 @@
 
             <div class="comment-section">
                 <h2>Comments</h2>
-               
+
                 <p><b id="count">@Model.Comments.Count</b> Comments </p>
-                
+
             </div>
 
 
@@ -123,7 +134,14 @@
             </div>
 
         </div>
-           
+
+
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="~/lib/jquery/dist/jquery-unobtrusive-ajax.min.js"></script>
+        <script src="~/js/recipe-page-scripts.js"></script>
+        <script src="~/js/likes.js?n=1"></script>
+        <script src="~/js/comments.js"></script>
+        <script src="~/js/rating.js"></script>
 
     </body>
 

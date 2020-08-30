@@ -60,6 +60,7 @@ namespace MMFoodIdea
 
             services.AddScoped<IUserServices, UserServices>();
 
+            services.AddScoped<IRatingServices, RatingServices>();
 
         }
 

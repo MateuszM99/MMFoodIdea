@@ -15,6 +15,7 @@ namespace MMFI_Entites.ViewModels
         public string RecipePortions { get; set; }
         public string RecipeInstructions { get; set; }
         public List<Ingridient> Ingridients { get; set; }
+        public double Rating { get; set; }
         public virtual AppUser Sender { get; set; }
         public DateTime PostedOn { get; set; }
         public virtual ICollection<Image> Images { get; set; }

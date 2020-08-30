@@ -156,32 +156,16 @@ namespace MMFoodIdea.Controllers
             {
                 await _uploadServices.UploadingRecipePhoto(image, recipe.Sender, recipe.RecipeId);
             }
+           
 
-
-            var rImages = _appDb.Images.Where(i => i.RecipeId == recipe.RecipeId && i.UserId == recipe.UserId).ToList();
-
-            recipe.Images = rImages;
-
-            RecipeVM recipeVM = new RecipeVM();
-
-            recipeVM.RecipeName = recipe.RecipeName;
-            recipeVM.RecipeCategory = recipe.RecipeCategory;
-            recipeVM.RecipePortions = recipe.RecipePortions;
-            recipeVM.RecipeTime = recipe.RecipeTime;
-            recipeVM.Ingridients = (List<Ingridient>)recipe.Ingridients;
-            recipeVM.RecipeInstructions = recipe.RecipeInstructions;
-            recipeVM.Sender = recipe.Sender;
-            recipeVM.PostedOn = recipe.PostedOn;
-            recipeVM.Images = recipe.Images;
-            recipeVM.Comments = new List<Comment>();
-
-            return View("RecipePage", recipeVM);
+            return RedirectToAction("GetRecipe",recipe.RecipeId);                       
         }
       
         [HttpGet]
         public async Task<IActionResult> GetRecipe(int id)
         {
             Recipe recipe = _appDb.Recipes.Find(id);
+           
 
             var sender = await _userManager.FindByIdAsync(recipe.UserId);
 
@@ -194,6 +178,7 @@ namespace MMFoodIdea.Controllers
             recipeVM.RecipeTime = recipe.RecipeTime;
             recipeVM.RecipeInstructions = recipe.RecipeInstructions;
             recipeVM.Ingridients = _appDb.Ingridients.Where(r => id == r.RecipeId).ToList();
+            recipeVM.Rating = _ratingServices.GetRecipeRating(recipe.RecipeId);
             recipeVM.Sender = sender;
             recipeVM.PostedOn = recipe.PostedOn;
             recipeVM.Images = _appDb.Images.Where(i => i.RecipeId == recipe.RecipeId && i.UserId == recipe.UserId).ToList();
@@ -225,6 +210,7 @@ namespace MMFoodIdea.Controllers
                 Rating rating = new Rating();
                 rating.RecipeId = recipeId;
                 rating.UserId = user.Id;
+                rating.Rate = rate;
 
                await _ratingServices.Rate(rating, user);
 
