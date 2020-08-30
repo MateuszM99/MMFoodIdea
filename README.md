@@ -25,7 +25,7 @@ Simple and minimalistic site with recipes. Users can post their own recipes. The
 ![Algorithm schema](./startpage.png)
 ![Algorithm schema](./mainRecipePage.png)
 ![Algorithm schema](./userProfile.png)
-![Algorithm schema](./createRecipePage.png)
+![Algorithm schema](./createRecipe.png)
 ## Status
 
 Abandoned - To be resumed
