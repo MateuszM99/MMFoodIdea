@@ -19,12 +19,7 @@ namespace MMFI_Services
         {
             _appDb = appDb;
         }
-
-        public Image GetDefaultImage()
-        {
-            return null;
-        }
-
+      
         public List<Recipe> GetUserLikedRecipes(string UserId)
         {
             var ids = _appDb.RecipeLikes.Where(r => r.UserId == UserId).Select(r => r.RecipeId);
@@ -36,17 +31,7 @@ namespace MMFI_Services
         {
             return _appDb.Images.Where(i => i.UserId == UserId).FirstOrDefault();
         }
-
-        public double GetUserRating(string UserId)
-        {
-            return 0;
-        }
-
-        public List<Follow> GetUsersFollowers(string UserId)
-        {
-            return null;
-        }
-
+     
         public List<Recipe> GetUsersRecipes(string UserId)
         {
             return _appDb.Recipes.Where(r => r.UserId == UserId).ToList();

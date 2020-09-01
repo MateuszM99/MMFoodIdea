@@ -12,32 +12,7 @@ namespace MMFoodIdea.Controllers
     {
         public IActionResult Index()
         {
-            RecipeBrowseVM rbVM = new RecipeBrowseVM();
-
-            rbVM.Recipes = new List<Recipe>();
-
-            Recipe rec1 = new Recipe
-            {
-                RecipeId = 1,
-                RecipeName = "Test",
-                RecipeTime = 10,
-
-            };
-
-            Recipe rec2 = new Recipe
-            {
-                RecipeId = 2,
-                RecipeName = "Test",
-                RecipeTime = 20,
-
-            };
-
-            rbVM.Recipes.Add(rec1);
-            
-            rbVM.Recipes.Add(rec2);
-
-
-            return View(rbVM);
+            return View("Error");
         }
     }
 }

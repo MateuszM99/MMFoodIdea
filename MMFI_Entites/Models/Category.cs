@@ -6,6 +6,7 @@ namespace MMFI_Entites.Models
 {
     public enum Category
     {
+        Undefined,
         Italian,
         African,
         Turkish,

@@ -32,9 +32,9 @@ namespace MMFI_Services
 
         public async Task PostComment(Comment comment)
         {            
-            comment.Date = DateTime.Now;                                           
-            await _appDb.Comments.AddAsync(comment);
+            comment.Date = DateTime.Now;  
             
+            await _appDb.Comments.AddAsync(comment);       
             await _appDb.SaveChangesAsync();          
         }
 
@@ -43,9 +43,7 @@ namespace MMFI_Services
             _appDb.Remove(comment);
             await _appDb.SaveChangesAsync();
         }
-
-       
-
+      
         public async Task CommentLiking(Comment comment,string userId)
         {
             var userLike = await _appDb.CommentLikes
@@ -78,8 +76,7 @@ namespace MMFI_Services
                 cl.isLike = true;
                 await _appDb.CommentLikes.AddAsync(cl);
                 await _appDb.SaveChangesAsync();
-            }
-                       
+            }                     
         }
 
         public async Task CommentDisliking(Comment comment, string userId)
@@ -116,8 +113,6 @@ namespace MMFI_Services
                 await _appDb.SaveChangesAsync();
             }
         }
-
-
 
         public Task EditComment(Comment comment)
         {

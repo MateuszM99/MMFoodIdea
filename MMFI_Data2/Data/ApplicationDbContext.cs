@@ -28,13 +28,10 @@ namespace MMFoodIdea.Data
 
         public DbSet<Rating> Ratings { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            
-
+           
             builder.Entity<Comment>()
                 .HasOne<AppUser>(a => a.Sender)
                 .WithMany(d => d.Comments)
@@ -53,10 +50,7 @@ namespace MMFoodIdea.Data
                 .HasKey(c => new { c.CommentId,c.UserId} );
 
             builder.Entity<AppUser>()
-                .HasOne<Image>(x => x.ProfileImage);
-
-            
-
+                .HasOne<Image>(x => x.ProfileImage);          
         }
     }
 }

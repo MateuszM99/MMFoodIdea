@@ -38,9 +38,13 @@
                 <a asp-area="Identity" asp-page="/Account/Register">Register</a>
             </div>
         }
-        <div class="recipes">
-            <a asp-controller="Recipes" asp-action="Select">Go to recipes</a>
-        </div>
+    <div class="recipes">    
+        @Html.ActionLink("Go to recipes",
+                       "Select",  // <-- ActionMethod.
+                       "Recipes",   // <-- Controller Name
+                       new { sortType = "latest"}, // <-- Route arguments.
+                       null)
+    </div>
     </div>
 </body>
 </html>

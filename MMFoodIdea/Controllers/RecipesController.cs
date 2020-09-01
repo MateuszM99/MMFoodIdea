@@ -24,48 +24,39 @@ namespace MMFoodIdea.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IUploadServices _uploadServices;
         private readonly IRatingServices _ratingServices;
-        public RecipesController(ApplicationDbContext appDb, ICommentServices cServices, UserManager<AppUser> userManager, IUploadServices uploadServices, IRatingServices ratingServices)
+        private readonly ISearchServices _searchServices;
+        public RecipesController(ApplicationDbContext appDb, ICommentServices cServices, UserManager<AppUser> userManager, IUploadServices uploadServices, IRatingServices ratingServices, ISearchServices searchServices)
         {
             _userManager = userManager;
             _appDb = appDb;
             _cServices = cServices;
             _uploadServices = uploadServices;
             _ratingServices = ratingServices;
+            _searchServices = searchServices;
         }
 
         public IActionResult Index()
         {
             return View("StartPage");
         }
-
-        [HttpGet]
-        public async Task<IActionResult> Select()
+  
+        public async Task<IActionResult> Select(string sortType,string recipeName,Category category,int? time,int? rating)
         {
             RecipesMainVM mainVM = new RecipesMainVM();
+            List<Recipe> recipes = _appDb.Recipes.Where(r => r.RecipeName != null).ToList();           
 
-            mainVM.Recipes = _appDb.Recipes.Where(r => r.RecipeName != null).ToList();
-
-            foreach(var recipe in mainVM.Recipes)
+            switch (sortType)
             {
-                recipe.Sender = await _userManager.FindByIdAsync(recipe.UserId);
-            }           
-
-            return View("RecipesSelect",mainVM);
-        }
-
-        public async Task<IActionResult> SearchRecipe(string recipeName)
-        {
-            RecipesMainVM mainVM = new RecipesMainVM();
-
-            List<Recipe> recipes;
-
-            if (recipeName == null)
-            {
-                recipes = _appDb.Recipes.Where(r=> r.RecipeName != null).ToList();
-            }
-            else
-            {
-                recipes = _appDb.Recipes.Where(r => r.RecipeName.ToLower().Contains(recipeName.ToLower())).ToList();
+                case "latest":
+                    recipes = _searchServices.searchLatest(recipeName,category,time,rating);                                  
+                    break;
+                case "popular":                   
+                    recipes = _searchServices.searchPopular(recipeName, category, time, rating);
+                    break;
+                case "liked":
+                    var user = await _userManager.GetUserAsync(User);
+                    recipes = _searchServices.searchLiked(recipeName, category, time, rating,user);
+                    break;
             }
 
             mainVM.Recipes = recipes;
@@ -75,63 +66,13 @@ namespace MMFoodIdea.Controllers
                 recipe.Sender = await _userManager.FindByIdAsync(recipe.UserId);
             }
 
-            return PartialView("_LatestPartial", mainVM);
+            mainVM.selectedCategory = category;
+            mainVM.selectedTime = time;
+            mainVM.selectedRating = rating;
+
+            return View("RecipesSelect", mainVM);           
         }
-
-        public async Task<IActionResult> GetLatest()
-        {
-            RecipesMainVM mainVM = new RecipesMainVM();
-
-            var latestRecipes = _appDb.Recipes.OrderBy(r => r.PostedOn).Where(r => r.PostedOn > DateTime.Now.AddDays(-50)).ToList();
-
-            mainVM.Recipes = latestRecipes;
-
-            foreach (var recipe in mainVM.Recipes)
-            {
-                recipe.Sender = await _userManager.FindByIdAsync(recipe.UserId);
-            }
-
-            return PartialView("_LatestPartial",mainVM);
-        }
-
-        public async Task<IActionResult> GetPopular()
-        {
-            RecipesMainVM mainVM = new RecipesMainVM();
-
-            var popularRecipes = _appDb.Recipes.OrderByDescending(r => r.Likes).Where(r => r.Likes > 3).ToList();
-
-            mainVM.Recipes = popularRecipes;
-
-            foreach (var recipe in mainVM.Recipes)
-            {
-                recipe.Sender = await _userManager.FindByIdAsync(recipe.UserId);
-            }
-
-            return PartialView("_LatestPartial",mainVM);
-        }
-
-        public async Task<IActionResult> GetLiked()
-        {
-            var user = await _userManager.GetUserAsync(User);
-
-            RecipesMainVM mainVM = new RecipesMainVM();
-
-            var recipeLikes = _appDb.RecipeLikes.Where(r => r.UserId == user.Id);
-
-            var Ids = from rl in recipeLikes select rl.RecipeId;
-
-            var likedRecipes = _appDb.Recipes.Where(r => Ids.Contains(r.RecipeId)).ToList();
-
-            mainVM.Recipes = likedRecipes;
-
-            foreach (var recipe in mainVM.Recipes)
-            {
-                recipe.Sender = await _userManager.FindByIdAsync(recipe.UserId);
-            }
-
-            return PartialView("_LatestPartial",mainVM);
-        }
-
+                 
         [Authorize]
         [HttpGet]
         public IActionResult CreateRecipe()
@@ -157,7 +98,6 @@ namespace MMFoodIdea.Controllers
                 await _uploadServices.UploadingRecipePhoto(image, recipe.Sender, recipe.RecipeId);
             }
            
-
             return RedirectToAction("GetRecipe",recipe.RecipeId);                       
         }
       
@@ -193,26 +133,22 @@ namespace MMFoodIdea.Controllers
                 if (_appDb.CommentLikes.Where(c => c.CommentId == comment.CommentID && c.isDislike == true && c.UserId == _userManager.GetUserId(User)).Any() == true)
                     comment.Reacted = "dislike-pressed";
             }
-
             
-
             return View("RecipePage",recipeVM);
         }
 
-
+        [Authorize]
         public async Task<IActionResult> RateRecipe(int recipeId,int rate)
         {
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(User);
-
-
                 Rating rating = new Rating();
                 rating.RecipeId = recipeId;
                 rating.UserId = user.Id;
                 rating.Rate = rate;
 
-               await _ratingServices.Rate(rating, user);
+                await _ratingServices.Rate(rating, user,recipeId);
 
                 return Ok();
             }
@@ -226,7 +162,6 @@ namespace MMFoodIdea.Controllers
         public async Task<IActionResult> LeaveComment(int id,string text)
         {
             
-
             if (ModelState.IsValid)
             {
                 Comment comment = new Comment();
@@ -258,10 +193,10 @@ namespace MMFoodIdea.Controllers
                     return Ok();
                 }
             
-
             return View("Error");
         }
 
+        [Authorize]
         public async Task<IActionResult> EditComment(Comment comment)
         {
             if (ModelState.IsValid)
@@ -274,8 +209,7 @@ namespace MMFoodIdea.Controllers
 
             return View("Error");
         }
-
-      
+     
        [Authorize]
         public async Task<IActionResult> OnLikeClick(Comment comment)
         {
@@ -300,14 +234,10 @@ namespace MMFoodIdea.Controllers
 
                 await _cServices.CommentDisliking(comment, userId);
 
-
                 return Ok();
             }
 
             return View("Error");
         }
-
-
-
     }
 }

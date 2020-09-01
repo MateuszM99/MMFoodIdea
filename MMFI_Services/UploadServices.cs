@@ -28,7 +28,6 @@ namespace MMFI_Services
         public async Task UploadingProfilePhoto(IFormFile imageFile,AppUser appUser)
         {
             string extension = Path.GetExtension(imageFile.FileName);
-
             string path = String.Format("wwwroot/images/Users/{0}", appUser.Id);
 
             if (!Directory.Exists(path))
@@ -72,23 +71,17 @@ namespace MMFI_Services
             _appDb.Images.RemoveRange(userImgs);
 
             MMFI_Entites.Models.Image dbImage = new MMFI_Entites.Models.Image();
-
             dbImage.ImagePath = String.Format("/images/Users/{0}", appUser.Id) + "/" + imageFile.FileName;
-
             dbImage.UserId = appUser.Id;
 
             _appDb.Images.Add(dbImage);
-
-            await _appDb.SaveChangesAsync();
-           
+            await _appDb.SaveChangesAsync();        
         }
 
         public async Task UploadingRecipePhoto(IFormFile imageFile, AppUser appUser,int recipeId)
         {
             string extension = Path.GetExtension(imageFile.FileName);
-
             string path = String.Format("wwwroot/images/Recipes/{0}/{1}", appUser.Id,recipeId);
-
             var baseDirectory = Directory.GetCurrentDirectory();
 
             if (!Directory.Exists(path))
@@ -128,17 +121,12 @@ namespace MMFI_Services
             }
 
             MMFI_Entites.Models.Image dbImage = new MMFI_Entites.Models.Image();
-
             dbImage.ImagePath = String.Format("/images/Recipes/{0}/{1}", appUser.Id, recipeId) + "/" + imageFile.FileName;
-
             dbImage.UserId = appUser.Id;
-
             dbImage.RecipeId = recipeId;
-
+            
             _appDb.Images.Add(dbImage);
-
             await _appDb.SaveChangesAsync();
-
         }
 
 

@@ -35,11 +35,12 @@ namespace MMFI_Entites.Models
 
         [Required(ErrorMessage = "At least one ingridient is required")]
         public List<Ingridient> Ingridients { get; set; }
-     
+
+        public double Rating { get; set; }
+
         public string UserId { get; set; }
         public virtual AppUser Sender { get; set; }        
-        public DateTime PostedOn { get; set; }
-        
+        public DateTime PostedOn { get; set; }      
         public virtual ICollection<Image> Images { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public int Likes { get; set; }

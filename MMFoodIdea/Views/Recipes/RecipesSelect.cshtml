@@ -17,7 +17,6 @@
 
 
 <body>
-
     <nav class="navbar">
         <div class="mylogo">
             <h2>MMFoodIdea</h2>
@@ -54,18 +53,50 @@
             </div>
             <div class="category">
                 <h3>Category</h3>               
-                <select asp-items="Html.GetEnumSelectList<Category>()"></select>
+                <select asp-items="Html.GetEnumSelectList<Category>()" onchange="categorySearch()" id="select-category" asp-for="@Model.selectedCategory"></select>
             </div>
             <div class="time-filter">
                 <h3>Time</h3>
-                <input type="radio" name="time" onclick="timeFilter(0)">
-                <label>Doesn't matter</label></br>
-                <input type="radio" name="time" onclick="timeFilter(15)">
-                <label>Less than 15 minutes</label></br>
-                <input type="radio" name="time" onclick="timeFilter(30)">
-                <label>Less than 30 minutes</label></br>
-                <input type="radio" name="time" onclick="timeFilter(60)">
-                <label>Less than 1 hour</label></br>
+                @if (Model.selectedTime == 999)
+                {
+                    <input type="radio" name="time" onclick="timeSearch(999)" checked="checked">
+                    <label>Doesn't matter</label><br />
+                }
+                else
+                {
+                    <input type="radio" name="time" onclick="timeSearch(999)">
+                    <label>Doesn't matter</label><br />
+                }
+                @if (Model.selectedTime == 15)
+                {
+                    <input type="radio" name="time" onclick="timeSearch(15)" checked="checked">
+                    <label>Less than 15 minutes</label><br />
+                }
+                else
+                {
+                    <input type="radio" name="time" onclick="timeSearch(15)">
+                    <label>Less than 15 minutes</label><br />
+                }
+                @if (Model.selectedTime == 30)
+                {
+                    <input type="radio" name="time" onclick="timeSearch(30)" checked="checked">
+                    <label>Less than 30 minutes</label><br />
+                }
+                else
+                {
+                    <input type="radio" name="time" onclick="timeSearch(30)">
+                    <label>Less than 30 minutes</label><br />
+                }
+                @if (Model.selectedTime == 60)
+                {
+                    <input type="radio" name="time" onclick="timeSearch(60)" checked="checked">
+                    <label>Less than 1 hour</label><br />
+                }
+                else
+                {
+                    <input type="radio" name="time" onclick="timeSearch(60)">
+                    <label>Less than 1 hour</label><br />
+                }
             </div>
             <div class="rating-filter">
                 <h3>Rating</h3>

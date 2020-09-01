@@ -8,7 +8,7 @@ namespace MMFI_IServices
 {
     public interface IRatingServices
     {
-       Task Rate(Rating rating,AppUser user);
+       Task Rate(Rating rating,AppUser user,int recipeId);
 
        double GetRecipeRating(int recipeId);
     }
